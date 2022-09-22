@@ -10,6 +10,7 @@ debian/debhelper-build-stamp
 debian/files
 debian/bottle-imp.debhelper.log
 debian/bottle-imp.postinst.debhelper
+debian/bottle-imp.postrm.debhelper
 debian/bottle-imp.substvars
 debian/bottle-imp
 

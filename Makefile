@@ -82,16 +82,11 @@ internal-package:
 	install -Dm 0755 -o root "othersrc/scripts/map-user-runtime-dir.sh" -t "$(INSTALLDIR)"
 	install -Dm 0755 -o root "othersrc/scripts/unmap-user-runtime-dir.sh" -t "$(INSTALLDIR)"
 
-	# Unit files.
-	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/pstorefs.service" -t "$(SVCDIR)"
-	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/securityfs.service" -t "$(SVCDIR)"
+	# Unit override files.
 	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/user-runtime-dir@.service.d/override.conf" -t "$(SVCDIR)/user-runtime-dir@.service.d"
 
 	# binfmt.d
 	install -Dm 0644 -o root "othersrc/usr-lib/binfmt.d/WSLInterop.conf" -t "$(USRLIBDIR)/binfmt.d"
-
-	# tmpfiles.d
-	install -Dm 0644 -o root "othersrc/usr-lib/tmpfiles.d/wslg.conf" -t "$(USRLIBDIR)/tmpfiles.d"
 
 internal-clean:
 	make -C binsrc clean
