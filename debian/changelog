@@ -2,4 +2,4 @@ bottle-imp (0.1) bullseye bookworm sid; urgency=medium
 
         * Initial data-only hack.
 
-  -- Alistair Young <avatar@arkane-systems.net>  Thu, 22 Sep 2022 18:00:00 -0500
+ -- Alistair Young <avatar@arkane-systems.net>  Thu, 22 Sep 2022 18:00:00 -0500
