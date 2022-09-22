@@ -75,7 +75,7 @@ internal-package:
 
 	# binaries
 	mkdir -p "$(BINDIR)"
-	install -Dm 6755 -o root "binsrc/imp-wrapper/imp" -t "$(INSTALLDIR)"
+	install -Dm 6755 -o root "binsrc/imp-wrapper/imp" -t "$(BINDIR)"
 	install -Dm 0755 -o root "binsrc/out/imp" -t "$(INSTALLDIR)"
 
 	# Runtime dir mapping
