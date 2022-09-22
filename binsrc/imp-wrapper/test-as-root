@@ -1,0 +1,3 @@
+#! /bin/sh
+sudo chown root:root imp
+sudo chmod 6755 imp

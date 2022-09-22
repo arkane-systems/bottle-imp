@@ -1,0 +1,26 @@
+#
+# This Makefile produces and packages the imp program.
+#
+
+# default to amd64 build if not specified
+DEB_TARGET_ARCH ?= amd64
+
+#
+# default target: build the executable
+#
+
+all:
+ifeq ($(DEB_TARGET_ARCH),amd64)
+	gcc imp.c -o imp
+endif
+
+ifeq ($(DEB_TARGET_ARCH),arm64)
+	aarch64-linux-gnu-gcc imp.c -o imp
+endif
+
+#
+# clean: delete the package interim files
+#
+
+clean:
+	rm -f imp

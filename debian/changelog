@@ -1,3 +1,11 @@
+bottle-imp (0.2) bullseye bookworm sid; urgency=medium
+
+        * Updated dependencies of pstorefs.service.
+        * Added direct links to sysinit.target.wants.
+        * Added prototype version of imp executable.
+
+ -- Alistair Young <avatar@arkane-systems.net>  Thu, 22 Sep 2022 19:00:00 -0500
+
 bottle-imp (0.1) bullseye bookworm sid; urgency=medium
 
         * Initial data-only hack.

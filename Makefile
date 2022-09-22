@@ -3,7 +3,7 @@
 #
 
 # Bottle-Imp version
-IMPVERSION = 0.1
+IMPVERSION = 0.2
 
 # Determine this makefile's path.
 # Be sure to place this BEFORE `include` directives, if any.
@@ -43,7 +43,7 @@ default:
 #
 
 clean: clean-debian
-	# make -C binsrc clean
+	make -C binsrc clean
 	rm -rf out
 
 package: package-debian
@@ -66,12 +66,17 @@ clean-debian:
 # Internal packaging functions
 
 internal-debian-package:
-	mkdir -p debian/systemd-genie
+	mkdir -p debian/bottle-imp
 	@$(MAKE) -f $(THIS_FILE) DESTDIR=debian/bottle-imp internal-package
 
 # We can assume DESTDIR is set, due to how the following are called.
 
 internal-package:
+
+	# binaries
+	mkdir -p "$(BINDIR)"
+	install -Dm 6755 -o root "binsrc/imp-wrapper/imp" -t "$(INSTALLDIR)"
+	install -Dm 0755 -o root "binsrc/out/imp" -t "$(INSTALLDIR)"
 
 	# Runtime dir mapping
 	install -Dm 0755 -o root "othersrc/scripts/map-user-runtime-dir.sh" -t "$(INSTALLDIR)"
@@ -89,7 +94,7 @@ internal-package:
 	install -Dm 0644 -o root "othersrc/usr-lib/tmpfiles.d/wslg.conf" -t "$(USRLIBDIR)/tmpfiles.d"
 
 internal-clean:
-	# make -C binsrc clean
+	make -C binsrc clean
 
 #
 # Helpers: intermediate build stages.
@@ -99,5 +104,4 @@ make-output-directory:
 	mkdir -p out
 
 build-binaries:
-        # Would build binaries if there were any.
-	# make -C binsrc
+	make -C binsrc

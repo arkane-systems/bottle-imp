@@ -10,6 +10,7 @@ debian/files
 debian/bottle-imp.debhelper.log
 debian/bottle-imp.postinst.debhelper
 debian/bottle-imp.substvars
+debian/bottle-imp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
