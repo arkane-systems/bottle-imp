@@ -100,7 +100,8 @@ def do_login():
     if not helpers.get_systemd_machined_active():
         sys.exit ("imp: cannot launch login; systemd-machined is not active")
 
-    print ("imp logins!")
+    os.execv ('/usr/bin/machinectl', ['machinectl', 'login', '.host'])
+    # never get here
 
 def do_shell():
     """Start/connect to a systemd user session with a shell."""
