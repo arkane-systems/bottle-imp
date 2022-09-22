@@ -1,0 +1,17 @@
+Source: bottle-imp
+Section: contrib/misc
+Priority: optional
+Maintainer: Alistair Young <avatar@arkane-systems.net>
+Build-Depends: debhelper-compat (= 12)
+Standards-Version: 4.5.0
+Homepage: https://github.com/arkane-systems/bottle-imp
+Vcs-Git: https://github.com/arkane-systems/bottle-imp.git
+Vcs-Browser: https://github.com/arkane-systems/bottle-imp
+
+Package: bottle-imp
+Architecture: amd64 arm64
+Depends: ${misc:Depends}, ${shlibs:Depends}, systemd (>= 232-25), python3 (>= 3.7), systemd-container (>= 232-25)
+Description: helper for native systemd support under WSL
+ Fixes some secondary facilities and allows easy access to a user session
+ when systemd is run under Windows Subsystem for Linux using its native
+ support. A spinoff of system-genie.

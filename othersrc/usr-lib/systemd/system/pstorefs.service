@@ -1,0 +1,12 @@
+[Unit]
+Description=Kernel Persistent Storage File System
+DefaultDependencies=no
+Before=sysinit.target
+ConditionPathIsMountPoint=!/sys/fs/pstore
+
+[Service]
+Type=oneshot
+ExecStart=/bin/mount -t pstore -o nosuid,nodev,noexec pstore /sys/fs/pstore
+
+[Install]
+WantedBy=sysinit.target

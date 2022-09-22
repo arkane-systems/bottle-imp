@@ -1,0 +1,32 @@
+#!/usr/bin/make -f
+# See debhelper(7) (uncomment to enable)
+# output every command that modifies files on the build system.
+DH_VERBOSE = 1
+export DH_OPTIONS=-v
+
+# see FEATURE AREAS in dpkg-buildflags(1)
+#export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	make build-binaries
+
+override_dh_auto_install:
+	make internal-debian-package
+
+override_dh_auto_clean:
+	make internal-clean
+
+# Allow our setuid executable to pass unfixed.
+# override_dh_fixperms:
+# 	dh_fixperms -Xgenie
+
+override_dh_strip:
+	dh_strip --no-automatic-dbgsym
+
+override_dh_shlibdeps:
+ifeq ($(DEB_TARGET_ARCH),amd64)
+	dh_shlibdeps
+endif
