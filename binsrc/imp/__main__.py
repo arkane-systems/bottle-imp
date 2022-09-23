@@ -2,6 +2,8 @@
 
 import argparse
 import os
+import signal
+import subprocess
 import sys
 import time
 
@@ -91,7 +93,19 @@ def do_initialize():
     """Initialize WSL_INTEROP, then fork a blocker, holding the session open until systemctl poweroff."""
     wait_for_systemd()
 
-    print ("imp inits!")
+    # Update the base environment with interop-fu.
+    subprocess.run(['systemctl', 'import-environment', 'WSL_INTEROP'])
+
+    # Run wait-forever subprocess.
+    subprocess.popen(['usr/lib/genie/wait-forever.sh'],
+                     stdin=subprocess.DEVNULL,
+                     stdout=subprocess.DEVNULL,
+                     stderr=subprocess.DEVNULL,
+                     start_new_session = True,
+                     preexec_fn=(lambda: signal.signal(signal.SIGHUP, signal.SIG_IGN)))
+
+    # Exit
+    sys.exit(0)
 
 def do_login():
     """Start a systemd login prompt."""
@@ -99,6 +113,9 @@ def do_login():
 
     if not helpers.get_systemd_machined_active():
         sys.exit ("imp: cannot launch login; systemd-machined is not active")
+
+    if verbose:
+        print("imp: starting login prompt")
 
     os.execv ('/usr/bin/machinectl', ['machinectl', 'login', '.host'])
     # never get here
@@ -110,6 +127,9 @@ def do_shell():
     if not helpers.get_systemd_machined_active():
         sys.exit ("imp: cannot launch shell; systemd-machined is not active")
 
+    if verbose:
+        print("imp: starting shell")
+
     os.execv ('/usr/bin/machinectl', ['machinectl', 'shell', '-q', login + '@.host'])
     # never get here
 
@@ -120,7 +140,15 @@ def do_command(commandline):
     if not helpers.get_systemd_machined_active():
         sys.exit ("imp: cannot launch command; systemd-machined is not active")
 
-    print ("imp commands!")
+    if verbose:
+        print("imp: running command " + ' '.join(commandline))
+
+    if len(commandline) == 0:
+        sys.exit("imp: no command specified")
+
+    command = ['machinectl', 'shell', '-q', login + '@.host', '/usr/bin/env', '-C', os.getcwd()] + commandline;
+
+    os.execv ('/usr/bin/machinectl', commandline)
 
 # Entrypoint
 def entrypoint():

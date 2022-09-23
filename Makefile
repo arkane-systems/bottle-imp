@@ -79,6 +79,7 @@ internal-package:
 	install -Dm 0755 -o root "binsrc/out/imp" -t "$(INSTALLDIR)"
 
 	# Runtime dir mapping
+	install -Dm 0755 -o root "othersrc/scripts/wait-forever.sh" -t "$(INSTALLDIR)"
 	install -Dm 0755 -o root "othersrc/scripts/map-user-runtime-dir.sh" -t "$(INSTALLDIR)"
 	install -Dm 0755 -o root "othersrc/scripts/unmap-user-runtime-dir.sh" -t "$(INSTALLDIR)"
 
