@@ -1,5 +1,7 @@
 # bottle-imp
 
+[ ![ci](https://github.com/arkane-systems/bottle-imp/workflows/ci/badge.svg?branch=master) ](https://github.com/arkane-systems/bottle-imp/actions?query=workflow%3Aci+branch%3Amaster)
+
 ## A helper for using WSL's native systemd support
 
 _bottle-imp_ is a spinoff of _[systemd-genie](http://github.com/arkane-systems/genie)_
