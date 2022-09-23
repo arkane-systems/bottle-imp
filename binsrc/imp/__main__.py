@@ -97,12 +97,14 @@ def do_initialize():
     subprocess.run(['systemctl', 'import-environment', 'WSL_INTEROP'])
 
     # Run wait-forever subprocess.
-    subprocess.popen(['usr/lib/genie/wait-forever.sh'],
+    subprocess.Popen(['/usr/lib/bottle-imp/wait-forever.sh'],
                      stdin=subprocess.DEVNULL,
                      stdout=subprocess.DEVNULL,
                      stderr=subprocess.DEVNULL,
                      start_new_session = True,
                      preexec_fn=(lambda: signal.signal(signal.SIGHUP, signal.SIG_IGN)))
+
+    print ("imp: systemd environment initialized and instance holding")
 
     # Exit
     sys.exit(0)
@@ -148,7 +150,7 @@ def do_command(commandline):
 
     command = ['machinectl', 'shell', '-q', login + '@.host', '/usr/bin/env', '-C', os.getcwd()] + commandline;
 
-    os.execv ('/usr/bin/machinectl', commandline)
+    os.execv ('/usr/bin/machinectl', command)
 
 # Entrypoint
 def entrypoint():
