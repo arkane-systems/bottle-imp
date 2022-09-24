@@ -91,7 +91,7 @@ internal-debian-package:
 
 package-tar: package-tar-amd64 package-tar-arm64
 
-package-tar-amd64: make-output-directory make-tarball-directory
+package-tar-amd64: make-output-directory
 	mkdir -p out/tar
 	rm -rf tarball
 	mkdir -p tarball
@@ -105,7 +105,7 @@ package-tar-amd64: make-output-directory make-tarball-directory
 
 	mv bottle-imp-*-amd64.tar.gz out/tar
 
-package-tar-arm64: make-output-directory make-tarball-directory
+package-tar-arm64: make-output-directory
 	mkdir -p out/tar
 	rm -rf tarball
 	mkdir -p tarball
