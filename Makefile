@@ -42,11 +42,15 @@ default:
 	#     make package-tar-amd64
 	#     make package-tar-arm64
 	#
+	# make package-arch
+	#
 	# Clean up
 	#
 	# make clean
 	#   make clean-debian
 	#   make clean-tar
+	#
+	# make clean-arch
 
 #
 # Targets: individual end-product build.
@@ -127,6 +131,22 @@ clean-tar:
 archive-tarfile:
 	# tar it up
 	tar zcvf bottle-imp-$(IMPVERSION)-$(TARCH).tar.gz tarball/* --transform='s/^tarball//'
+
+
+#
+# Arch packaging
+#
+
+package-arch:
+	mkdir -p out/arch
+	updpkgsums
+	BUILDDIR=/tmp PKDEST=$(PWD)/out/arch makepkg
+	rm -rf $(PWD)/bottle-imp
+	mv *.zst out/arch
+
+clean-arch:
+	rm -rf $(PWD)/genie
+	rm -rf out/arch
 
 
 #

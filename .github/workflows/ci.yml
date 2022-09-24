@@ -50,3 +50,24 @@ jobs:
         with:
           name: tar
           path: out/tar/*
+
+  build-arch:
+    runs-on: ubuntu-latest
+    container:
+      image: cerebrate/fuckarch:right-in-the-ear
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Permissions fixup
+        run: sudo chown -R build .
+
+      - name: Build Package
+        run: sudo -u build make package-arch
+
+      - name: Upload Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: zst
+          path: out/arch/*
