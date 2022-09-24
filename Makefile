@@ -53,11 +53,16 @@ package: package-debian
 # Debian packaging
 #
 
-package-debian: package-debian-amd64
+package-debian: package-debian-amd64 package-debian-arm64
 
 package-debian-amd64: make-output-directory
 	mkdir -p out/debian
 	debuild --no-sign
+	mv ../bottle-imp_* out/debian
+
+package-debian-arm64: make-output-directory
+	mkdir -p out/debian
+	debuild -aarm64 -b --no-sign
 	mv ../bottle-imp_* out/debian
 
 clean-debian:

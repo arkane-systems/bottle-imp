@@ -10,7 +10,7 @@ Vcs-Browser: https://github.com/arkane-systems/bottle-imp
 
 Package: bottle-imp
 Architecture: amd64 arm64
-Depends: ${misc:Depends}, ${shlibs:Depends}, systemd (>= 232-25), python3 (>= 3.7), python3-pip, python3-psutil, systemd-container (>= 232-25)
+Depends: ${misc:Depends}, ${shlibs:Depends}, libc6 (>= 2.34), systemd (>= 232-25), python3 (>= 3.7), python3-pip, python3-psutil, systemd-container (>= 232-25)
 Conflicts: systemd-genie
 Description: helper for native systemd support under WSL
  Fixes some secondary facilities and allows easy access to a user session
