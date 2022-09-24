@@ -92,6 +92,10 @@ internal-debian-package:
 package-tar: package-tar-amd64 package-tar-arm64
 
 package-tar-amd64: make-output-directory make-tarball-directory
+	mkdir -p out/tar
+	rm -rf tarball
+	mkdir -p tarball
+
 	$(MAKE) -f $(THIS_FILE) build-binaries
 
 	fakeroot $(MAKE) -f $(THIS_FILE) DESTDIR=tarball internal-package
@@ -102,6 +106,10 @@ package-tar-amd64: make-output-directory make-tarball-directory
 	mv bottle-imp-*-amd64.tar.gz out/tar
 
 package-tar-arm64: make-output-directory make-tarball-directory
+	mkdir -p out/tar
+	rm -rf tarball
+	mkdir -p tarball
+
 	DEB_TARGET_ARCH=arm64 $(MAKE) -f $(THIS_FILE) build-binaries
 
 	fakeroot $(MAKE) -f $(THIS_FILE) DESTDIR=tarball internal-package
@@ -115,11 +123,6 @@ clean-tar:
 	rm -rf tarball
 
 # Internal packaging functions
-
-make-tarball-directory:
-	mkdir -p out/tar
-	rm -rf tarball
-	mkdir -p tarball
 
 archive-tarfile:
 	# tar it up
