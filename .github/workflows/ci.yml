@@ -28,3 +28,25 @@ jobs:
         with:
           name: debpkg
           path: out/debian/*
+
+  build-tarball:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Update apt db
+        run: sudo apt update
+
+      - name: Install Cross-Compiler
+        run: sudo apt install -y gcc-aarch64-linux-gnu
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build & Make Tarball
+        run: make package-tar
+
+      - name: Upload Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: tar
+          path: out/tar/*
