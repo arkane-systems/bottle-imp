@@ -61,6 +61,20 @@ sudo apt update
 sudo apt install -y imp
 ```
 
+### Arch
+
+An Arch package (.zst) for amd64 can be downloaded from the releases, to right. Install it manually, using `pacman -U <file>`.
+
+### Other Distros
+
+If your distribution supports any of the package formats available, you may wish to try downloading the relevant format and giving it a try. This will almost certainly need some tweaking to work properly.
+
+Debian is the "native" distribution for _bottle-imp_, for which read, "what the author uses". Specifically, Debian bullseye+, with _usrmerge_ installed.
+
+#### TAR
+
+There is a .tar.gz of a complete genie install available from the releases, to right. As a last resort, you can try untarring this (it contains every needed file, with the correct permissions, in the correct path from /) onto your system while root. Don't do this unless you're confident you know what you're doing, you're willing to go looking for any resulting issues yourself, and you aren't afraid of accidentally breaking things. You will need to install the dependencies listed above beforehand.
+
 ## USAGE
 
 ```
