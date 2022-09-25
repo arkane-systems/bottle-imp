@@ -209,6 +209,7 @@ internal-supplement:
 	ln -sr $(SVCDIR)/pstorefs.service $(ETCSVCDIR)/sysinit.target.wants/pstorefs.service
 	ln -sr $(SVCDIR)/securityfs.service $(ETCSVCDIR)/sysinit.target.wants/securityfs.service
 
+	mkdir -p "$(ETCSVCDIR)/multi-user.target.wants"
 	ln -sr $(USRLIBDIR)/systemd/system/systemd-machined.service $(ETCSVCDIR)/multi-user.target.wants/systemd-machined.service
 
 	# Tmpfile.
