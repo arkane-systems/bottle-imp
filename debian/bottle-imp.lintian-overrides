@@ -1,2 +1,2 @@
-# Must be setuid
-elevated-privileges 6755 root/root [usr/bin/imp]
+# Must be setuid.
+bottle-imp: elevated-privileges 6755 root/root [usr/bin/imp]

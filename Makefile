@@ -19,7 +19,6 @@ USRLIBDIR = $(DESTDIR)/usr/lib
 # used only by TAR installer
 MAN8DIR = $(DESTDIR)/usr/share/man/man8
 DOCDIR = $(DESTDIR)/usr/share/doc/bottle-imp
-ETCSVCDIR = $(DESTDIR)/etc/systemd/system
 
 #
 # Default target: list options
@@ -205,12 +204,12 @@ internal-supplement:
 	install -Dm 0644 -o root debian/bottle-imp.pstorefs.service -T "$(SVCDIR)/pstorefs.service"
 	install -Dm 0644 -o root debian/bottle-imp.securityfs.service -T "$(SVCDIR)/securityfs.service"
 
-	mkdir -p "$(ETCSVCDIR)/sysinit.target.wants"
-	ln -sr $(SVCDIR)/pstorefs.service $(ETCSVCDIR)/sysinit.target.wants/pstorefs.service
-	ln -sr $(SVCDIR)/securityfs.service $(ETCSVCDIR)/sysinit.target.wants/securityfs.service
+	mkdir -p "$(SVCDIR)/sysinit.target.wants"
+	ln -sr $(SVCDIR)/pstorefs.service $(SVCDIR)/sysinit.target.wants/pstorefs.service
+	ln -sr $(SVCDIR)/securityfs.service $(SVCDIR)/sysinit.target.wants/securityfs.service
 
-	mkdir -p "$(ETCSVCDIR)/multi-user.target.wants"
-	ln -sr $(USRLIBDIR)/systemd/system/systemd-machined.service $(ETCSVCDIR)/multi-user.target.wants/systemd-machined.service
+	mkdir -p "$(SVCDIR)/multi-user.target.wants"
+	ln -sr $(USRLIBDIR)/systemd/system/systemd-machined.service $(SVCDIR)/multi-user.target.wants/systemd-machined.service
 
 	# Tmpfile.
 	install -Dm 0644 -o root debian/bottle-imp.tmpfile -T "$(USRLIBDIR)/tmpfiles.d/bottle-imp.conf"
