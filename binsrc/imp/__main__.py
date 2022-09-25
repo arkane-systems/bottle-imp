@@ -56,6 +56,25 @@ def wait_for_systemd():
     """Check if systemd is in the running state, and if not, wait for it."""
 
     # Unlike in genie, we can presume here that systemd does exist.
+    # But it may not be accessible yet. Check for system dbus.
+    if not os.path.exists('/run/dbus/system_bus_socket'):
+        # wait for it
+        print("imp: dbus is not available yet, please wait...", end="", flush=True)
+
+        timeout = 30 # hardcode this for now
+
+        while not os.path.exists('/run/dbus/system_bus_socket'):
+            time.sleep(1)
+            print(".", end="", flush=True)
+
+            timeout -= 1
+
+        print("")
+
+        if timeout <= 0:
+            sys.exit("imp: dbus still not available; cannot continue")
+    
+    # Now dbus is available, check for systemd.
     state = helpers.get_systemd_state()
 
     if 'stopping' in state:
@@ -73,7 +92,7 @@ def wait_for_systemd():
 
             print(".", end="", flush=True)
 
-        timeout -= 1
+            timeout -= 1
 
         print("")
 
