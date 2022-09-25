@@ -1,3 +1,10 @@
+bottle-imp (0.5) buster bullseye bookworm sid focal jammy; urgency=medium
+
+        * Added amd64 Arch package.
+        * Added clarifying tarball instructions to readme.
+
+ -- Alistair Young <avatar@arkane-systems.net>  Sun, 25 Sep 2022 01:00:00 -0500
+
 bottle-imp (0.4) buster bullseye bookworm sid focal jammy; urgency=medium
 
         * Added arm64 build for Debian.

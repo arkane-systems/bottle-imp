@@ -75,6 +75,8 @@ Debian is the "native" distribution for _bottle-imp_, for which read, "what the 
 
 There is a .tar.gz of a complete genie install available from the releases, to right. As a last resort, you can try untarring this (it contains every needed file, with the correct permissions, in the correct path from /) onto your system while root. Don't do this unless you're confident you know what you're doing, you're willing to go looking for any resulting issues yourself, and you aren't afraid of accidentally breaking things. You will need to install the dependencies listed above beforehand.
 
+You should use the _-p_ flag when untarring this release to preserve file permissions and the setuid flag on _/usr/bin/imp_. As some versions of _tar(1)_ always remove the high bits, you should also check the setuid status of _/usr/bin/imp_ after installing.
+
 ## USAGE
 
 ```
@@ -101,7 +103,7 @@ For more information, see https://github.com/arkane-systems/bottle-imp/
 
 There are four primary commands available in _bottle-imp_.
 
-_imp -i_ should be run first to set up your WSL instance. It has two effects (apart from waiting for systemd to be ready); it copies the necessary information to ensure that Windows interoperability works inside systemd-managed login sessions and even services, and it starts a lifetime-running process to ensure that the WSL instance does not terminate even when you have no interactive sessions open.
+_imp -i_ should be run first to set up your WSL instance. It has two effects (apart from waiting for systemd to be ready); it copies the necessary information to ensure that Windows interoperability works inside _systemd_-managed login sessions and even services, and it starts a lifetime-running process to ensure that the WSL instance does not terminate even when you have no interactive sessions open.
 
 **NOTE:** For technical reasons, it is not currently possible to separate these functions; you can't have reliable Windows interop without the lifetime-running process.
 
