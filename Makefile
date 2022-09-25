@@ -209,6 +209,8 @@ internal-supplement:
 	ln -sr $(SVCDIR)/pstorefs.service $(ETCSVCDIR)/sysinit.target.wants/pstorefs.service
 	ln -sr $(SVCDIR)/securityfs.service $(ETCSVCDIR)/sysinit.target.wants/securityfs.service
 
+	ln -sr $(USRLIBDIR)/systemd/system/systemd-machined.service $(ETCSVCDIR)/multi-user.target.wants/systemd-machined.service
+
 	# Tmpfile.
 	install -Dm 0644 -o root debian/bottle-imp.tmpfile -T "$(USRLIBDIR)/tmpfiles.d/bottle-imp.conf"
 
