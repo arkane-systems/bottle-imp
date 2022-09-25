@@ -61,7 +61,7 @@ def wait_for_systemd():
         # wait for it
         print("imp: dbus is not available yet, please wait...", end="", flush=True)
 
-        timeout = 30 # hardcode this for now
+        timeout = 240 # hardcode this for now
 
         while not os.path.exists('/run/dbus/system_bus_socket'):
             time.sleep(1)
@@ -73,7 +73,7 @@ def wait_for_systemd():
 
         if timeout <= 0:
             sys.exit("imp: dbus still not available; cannot continue")
-    
+
     # Now dbus is available, check for systemd.
     state = helpers.get_systemd_state()
 
