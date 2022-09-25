@@ -14,6 +14,9 @@ debian/bottle-imp.postrm.debhelper
 debian/bottle-imp.substvars
 debian/bottle-imp
 
+# Tarball build intermediates
+tarball/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
