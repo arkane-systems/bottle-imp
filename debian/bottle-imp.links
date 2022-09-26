@@ -1,1 +1,2 @@
 /usr/lib/systemd/system/systemd-machined.service /etc/systemd/system/multi-user.target.wants/systemd-machined.service
+/usr/lib/systemd/system/tmp-.X11\x2dunix.mount /etc/systemd/system/sysinit.target.wants/tmp-.X11\x2dunix.mount

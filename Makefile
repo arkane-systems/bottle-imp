@@ -166,6 +166,9 @@ internal-package:
 	install -Dm 0755 -o root "othersrc/scripts/map-user-runtime-dir.sh" -t "$(INSTALLDIR)"
 	install -Dm 0755 -o root "othersrc/scripts/unmap-user-runtime-dir.sh" -t "$(INSTALLDIR)"
 
+	# WSLg mount file
+	install -Dm 0644 -o root "debian/bottle-imp.tmp-.X11\x2dunix.mount" -T "$(SVCDIR)/tmp-.X11\x2dunix.mount"
+
 	# Unit override files.
 	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/user-runtime-dir@.service.d/override.conf" -t "$(SVCDIR)/user-runtime-dir@.service.d"
 
@@ -208,6 +211,7 @@ internal-supplement:
 	mkdir -p "$(ETCSVCDIR)/sysinit.target.wants"
 	ln -sr $(SVCDIR)/pstorefs.service $(ETCSVCDIR)/sysinit.target.wants/pstorefs.service
 	ln -sr $(SVCDIR)/securityfs.service $(ETCSVCDIR)/sysinit.target.wants/securityfs.service
+	ln -sr $(SVCDIR)/tmp-.X11\x2dunix.mount $(ETCSVCDIR)/sysinit.target.wants/tmp-.X11\x2dunix.mount
 
 	mkdir -p "$(ETCSVCDIR)/multi-user.target.wants"
 	ln -sr $(SVCDIR)/systemd-machined.service $(ETCSVCDIR)/multi-user.target.wants/systemd-machined.service

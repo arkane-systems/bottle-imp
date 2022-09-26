@@ -1,0 +1,11 @@
+#  This file is part of bottle-imp.
+#
+
+# See tmpfiles.d(5) for details
+
+# Create the needed symlink to make WSLg work under genie.
+#L+ /tmp/.X11-unix/X0 - - - - /mnt/wslg/.X11-unix/X0
+
+# Recreate the mount point for the X11 socket.
+d /tmp/.X11-unix - - - - -
+
