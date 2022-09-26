@@ -217,7 +217,7 @@ internal-supplement:
 	ln -sr $(SVCDIR)/systemd-machined.service $(ETCSVCDIR)/multi-user.target.wants/systemd-machined.service
 
 	# Tmpfile.
-	install -Dm 0644 -o root debian/bottle-imp.tmpfile -T "$(USRLIBDIR)/tmpfiles.d/bottle-imp.conf"
+	install -Dm 0644 -o root debian/bottle-imp.tmpfiles -T "$(USRLIBDIR)/tmpfiles.d/bottle-imp.conf"
 
 	# Cleanup temporary directory
 	rm -rf $(TMPBUILDDIR)
