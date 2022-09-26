@@ -1,1 +1,1 @@
-/usr/lib/systemd/system/systemd-machined.service /usr/lib/systemd/system/multi-user.target.wants/systemd-machined.service
+/usr/lib/systemd/system/systemd-machined.service /etc/systemd/system/multi-user.target.wants/systemd-machined.service
