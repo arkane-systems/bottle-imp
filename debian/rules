@@ -23,10 +23,6 @@ override_dh_auto_clean:
 override_dh_fixperms:
 	dh_fixperms -Ximp
 
-override_dh_installsystemd:
-	dh_installsystemd --name pstorefs --no-start
-	dh_installsystemd --name securityfs --no-start
-
 override_dh_strip:
 	dh_strip --no-automatic-dbgsym
 
@@ -34,3 +30,6 @@ override_dh_shlibdeps:
 ifeq ($(DEB_TARGET_ARCH),amd64)
 	dh_shlibdeps
 endif
+
+override_dh_builddeb:
+	dpkg-deb -Zxz --build debian/bottle-imp ..

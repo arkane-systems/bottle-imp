@@ -1,6 +1,8 @@
 bottle-imp (0.6) buster bullseye bookworm sid focal jammy; urgency=medium
 
-        * Compensatory additions to tmpfiles for things disabled by systemd support.
+        * Additions to tmpfiles for things disabled by systemd support.
+        * Build package using XZ compression when using CI.
+        * Do not use dh_installsystemd, it fucks up.
 
  -- Alistair Young <avatar@arkane-systems.net>  Tue, 27 Sep 2022 11:00:01 -0500
 

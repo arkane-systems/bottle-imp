@@ -166,8 +166,15 @@ internal-package:
 	install -Dm 0755 -o root "othersrc/scripts/map-user-runtime-dir.sh" -t "$(INSTALLDIR)"
 	install -Dm 0755 -o root "othersrc/scripts/unmap-user-runtime-dir.sh" -t "$(INSTALLDIR)"
 
+	# Systemd services.
+	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/pstorefs.service" -T "$(SVCDIR)/pstorefs.service"
+	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/securityfs.service" -T "$(SVCDIR)/securityfs.service"
+
 	# WSLg mount file
-	install -Dm 0644 -o root "debian/bottle-imp.tmp-.X11\x2dunix.mount" -T "$(SVCDIR)/tmp-.X11\x2dunix.mount"
+	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/tmp-.X11\x2dunix.mount" -T "$(SVCDIR)/tmp-.X11\x2dunix.mount"
+
+	# Tmpfiles.
+	install -Dm 0644 -o root "othersrc/usr-lib/tmpfiles.d/bottle-imp.conf" -T "$(USRLIBDIR)/tmpfiles.d/bottle-imp.conf"
 
 	# Unit override files.
 	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/user-runtime-dir@.service.d/override.conf" -t "$(SVCDIR)/user-runtime-dir@.service.d"
@@ -204,10 +211,6 @@ internal-supplement:
 	mkdir -p $(MAN8DIR)
 	install -Dm 0644 -o root "$(TMPBUILDDIR)/imp.8.gz" -t $(MAN8DIR)
 
-	# Systemd services.
-	install -Dm 0644 -o root debian/bottle-imp.pstorefs.service -T "$(SVCDIR)/pstorefs.service"
-	install -Dm 0644 -o root debian/bottle-imp.securityfs.service -T "$(SVCDIR)/securityfs.service"
-
 	mkdir -p "$(ETCSVCDIR)/sysinit.target.wants"
 	ln -sr $(SVCDIR)/pstorefs.service $(ETCSVCDIR)/sysinit.target.wants/pstorefs.service
 	ln -sr $(SVCDIR)/securityfs.service $(ETCSVCDIR)/sysinit.target.wants/securityfs.service
@@ -215,9 +218,6 @@ internal-supplement:
 
 	mkdir -p "$(ETCSVCDIR)/multi-user.target.wants"
 	ln -sr $(SVCDIR)/systemd-machined.service $(ETCSVCDIR)/multi-user.target.wants/systemd-machined.service
-
-	# Tmpfile.
-	install -Dm 0644 -o root debian/bottle-imp.tmpfiles -T "$(USRLIBDIR)/tmpfiles.d/bottle-imp.conf"
 
 	# Cleanup temporary directory
 	rm -rf $(TMPBUILDDIR)
