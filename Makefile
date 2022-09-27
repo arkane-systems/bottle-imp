@@ -3,7 +3,7 @@
 #
 
 # Bottle-Imp version
-IMPVERSION = 0.4
+IMPVERSION = 0.5
 
 # Determine this makefile's path.
 # Be sure to place this BEFORE `include` directives, if any.
@@ -166,6 +166,9 @@ internal-package:
 	install -Dm 0755 -o root "othersrc/scripts/map-user-runtime-dir.sh" -t "$(INSTALLDIR)"
 	install -Dm 0755 -o root "othersrc/scripts/unmap-user-runtime-dir.sh" -t "$(INSTALLDIR)"
 
+	# WSLg mount file
+	install -Dm 0644 -o root "debian/bottle-imp.tmp-.X11\x2dunix.mount" -T "$(SVCDIR)/tmp-.X11\x2dunix.mount"
+
 	# Unit override files.
 	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/user-runtime-dir@.service.d/override.conf" -t "$(SVCDIR)/user-runtime-dir@.service.d"
 
@@ -197,7 +200,7 @@ internal-supplement:
 	# Man page.
 	/usr/bin/cp othersrc/docs/imp.8 $(TMPBUILDDIR)/imp.8
 	gzip -f9 $(TMPBUILDDIR)/imp.8
-	
+
 	mkdir -p $(MAN8DIR)
 	install -Dm 0644 -o root "$(TMPBUILDDIR)/imp.8.gz" -t $(MAN8DIR)
 
@@ -208,12 +211,13 @@ internal-supplement:
 	mkdir -p "$(ETCSVCDIR)/sysinit.target.wants"
 	ln -sr $(SVCDIR)/pstorefs.service $(ETCSVCDIR)/sysinit.target.wants/pstorefs.service
 	ln -sr $(SVCDIR)/securityfs.service $(ETCSVCDIR)/sysinit.target.wants/securityfs.service
+	ln -sr $(SVCDIR)/tmp-.X11\x2dunix.mount $(ETCSVCDIR)/sysinit.target.wants/tmp-.X11\x2dunix.mount
 
 	mkdir -p "$(ETCSVCDIR)/multi-user.target.wants"
-	ln -sr $(USRLIBDIR)/systemd/system/systemd-machined.service $(ETCSVCDIR)/multi-user.target.wants/systemd-machined.service
+	ln -sr $(SVCDIR)/systemd-machined.service $(ETCSVCDIR)/multi-user.target.wants/systemd-machined.service
 
 	# Tmpfile.
-	install -Dm 0644 -o root debian/bottle-imp.tmpfile -T "$(USRLIBDIR)/tmpfiles.d/bottle-imp.conf"
+	install -Dm 0644 -o root debian/bottle-imp.tmpfiles -T "$(USRLIBDIR)/tmpfiles.d/bottle-imp.conf"
 
 	# Cleanup temporary directory
 	rm -rf $(TMPBUILDDIR)

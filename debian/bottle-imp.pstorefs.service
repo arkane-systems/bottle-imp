@@ -3,6 +3,7 @@ Description=Kernel Persistent Storage File System
 DefaultDependencies=no
 Before=sysinit.target
 Before=systemd-pstore.service
+ConditionPathExists=/sys/fs/pstore
 ConditionPathIsMountPoint=!/sys/fs/pstore
 
 [Service]

@@ -24,9 +24,8 @@ override_dh_fixperms:
 	dh_fixperms -Ximp
 
 override_dh_installsystemd:
-	dh_installsystemd
-	dh_installsystemd --name=pstorefs
-	dh_installsystemd --name=securityfs
+	dh_installsystemd --name pstorefs --no-start
+	dh_installsystemd --name securityfs --no-start
 
 override_dh_strip:
 	dh_strip --no-automatic-dbgsym

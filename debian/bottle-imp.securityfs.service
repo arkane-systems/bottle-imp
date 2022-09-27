@@ -4,6 +4,7 @@ DefaultDependencies=no
 Before=sysinit.target
 Before=apparmor.service
 ConditionSecurity=apparmor
+ConditionPathExists=/sys/kernel/security
 ConditionPathIsMountPoint=!/sys/kernel/security
 
 [Service]
