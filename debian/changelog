@@ -1,6 +1,6 @@
 bottle-imp (0.6) buster bullseye bookworm sid focal jammy; urgency=medium
 
-        * bump
+        * Compensatory additions to tmpfiles for things disabled by systemd support.
 
  -- Alistair Young <avatar@arkane-systems.net>  Tue, 27 Sep 2022 11:00:01 -0500
 
