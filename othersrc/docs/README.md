@@ -20,7 +20,7 @@ article here.
 The following features are provided by _bottle-imp_ (see the above article for more in-depth explanations):
 
   * Ensures that _securityfs_ (needed for AppArmor and LSMs) and _pstorefs_ (for debugging panics) are mounted.
-  * Ensures that the symlink of _/tmp/.X11-unix/X0_, which makes WSLg work, is restored after _systemd_ clears out _/tmp_.
+  * Ensures that the symlink of `/tmp/.X11-unix/X0`, which makes WSLg work, is restored after _systemd_ clears out `/tmp`.
   * Ensures that WSL interop is working, even after _systemd_ rebuilds the binfmts.
   * Makes sure _systemd_ is up and running before proceeding.
   * Mounts the WSLg-created user runtime directory over the _systemd_ user runtime directory, ensuring everything's in the right place.
@@ -34,9 +34,9 @@ and the big one
 
 First, obviously, if you were previously a user of _systemd-genie_ or one of the other systemd solutions, uninstall it _before_ attempting to set up native _systemd_ support or _bottle-imp_.
 
-It is a good idea to set your _systemd_ default target to _multi-user.target_ before enabling systemd native support. TThe default graphical.target used by many distributions includes services for the graphical desktop that would take, at minimum, considerable reconfiguration before operating properly under the WSL/WSLg environment.
+It is a good idea to set your _systemd_ default target to _multi-user.target_ before enabling _systemd_ native support. The default _graphical.target_ used by many distributions includes services for the graphical desktop that would take, at minimum, considerable reconfiguration before operating properly under the WSL/WSLg environment.
 
-If you are using a custom kernel for WSL, it should comply with the suggested means of detecting WSL given in microsoft/WSL#423 (comment) - i.e., the string "microsoft" should be present in the kernel version string, which can be found in _/proc/sys/kernel/osrelease_. You can check this by running _systemd-detect-virt_; it should return "wsl".
+If you are using a custom kernel for WSL, it should comply with the suggested means of detecting WSL given in [microsoft/WSL#423](https://github.com/microsoft/WSL/issues/423) - i.e., the string "microsoft" should be present in the kernel version string, which can be found in `/proc/sys/kernel/osrelease`. You can check this by running _systemd-detect-virt_; it should return "wsl".
 
 Obviously, since native _systemd_ support only works under WSL 2, the same can be said for _imp_.
 
@@ -45,20 +45,20 @@ A list of common problematic units and solutions [is available here](https://ran
 
 ## INSTALLATION
 
-If there is a package available for your distribution, this is the recommended method of installing genie.
+If there is a package available for your distribution, this is the recommended method of installing _bottle-imp_.
 
 ### Debian
-Dependent packages on Debian are libc6 (>= 2.34), python3 (>= 3.7), python3-pip, python3-psutil, systemd (>= 232-25), and systemd-container (>= 232-25). These should all be in the distro and able to be installed automatically.
+Dependent packages on Debian are _libc6_ (>= 2.34), _python3_ (>= 3.7), _python3-pip_, _python3-psutil_, _systemd_ (>= 232-25), and _systemd-container_ (>= 232-25). These should all be in the distro and able to be installed automatically.
 
 To install, add the wsl-translinux repository here by following the instructions here:
 
 https://arkane-systems.github.io/wsl-transdebian/
 
-then install imp using the commands:
+then install _bottle-imp_ using the commands:
 
 ```bash
 sudo apt update
-sudo apt install -y imp
+sudo apt install -y bottle-imp
 ```
 
 ### Arch
@@ -73,9 +73,9 @@ Debian is the "native" distribution for _bottle-imp_, for which read, "what the 
 
 #### TAR
 
-There is a .tar.gz of a complete genie install available from the releases, to right. As a last resort, you can try untarring this (it contains every needed file, with the correct permissions, in the correct path from /) onto your system while root. Don't do this unless you're confident you know what you're doing, you're willing to go looking for any resulting issues yourself, and you aren't afraid of accidentally breaking things. You will need to install the dependencies listed above beforehand.
+There is a .tar.gz of a complete _bottle-imp_ install available from the releases, to right. As a last resort, you can try untarring this (it contains every needed file, with the correct permissions, in the correct path from /) onto your system while root. Don't do this unless you're confident you know what you're doing, you're willing to go looking for any resulting issues yourself, and you aren't afraid of accidentally breaking things. You will need to install the dependencies listed above beforehand.
 
-You should use the _-p_ flag when untarring this release to preserve file permissions and the setuid flag on _/usr/bin/imp_. As some versions of _tar(1)_ always remove the high bits, you should also check the setuid status of _/usr/bin/imp_ after installing.
+You should use the _-p_ flag when untarring this release to preserve file permissions and the setuid flag on `/usr/bin/imp`. As some versions of _tar(1)_ always remove the high bits, you should also check the setuid status of `/usr/bin/imp` after installing.
 
 ## USAGE
 
@@ -107,12 +107,12 @@ _imp -i_ should be run first to set up your WSL instance. It has two effects (ap
 
 **NOTE:** For technical reasons, it is not currently possible to separate these functions; you can't have reliable Windows interop without the lifetime-running process.
 
-**NOTE 2:** The below commands will still work even if you do not run _imp -i_; however, Windows interop will not function inside systemd-managed sessions, and the WSL instance will idle-terminate as soon as there are no interactive sessions (technically defined as processes that are children of the Microsoft _init_) running.
+**NOTE 2:** The below commands will still work even if you do not run `imp -i`; however, Windows interop will not function inside _systemd_-managed sessions, and the WSL instance will idle-terminate as soon as there are no interactive sessions (technically defined as processes that are children of the Microsoft _init_) running.
 
-_imp -s_ runs your login shell inside a systemd login session; basically, Windows-side, _wsl imp -s_ is your substitute for just _wsl_ to get started, or for the shortcut you get to start a shell in the distro. It follows _login_ semantics, and as such does not preserve the current working directory.
+_imp -s_ runs your login shell inside a _systemd_ login session; basically, Windows-side, `wsl imp -s` is your substitute for just `wsl` to get started, or for the shortcut you get to start a shell in the distro. It follows _login_ semantics, and as such does not preserve the current working directory.
 
-_imp -c [command]_ runs _command_ inside a systemd login session, then exits. It follows _sudo_ semantics, and so does preserve the cwd.
+_imp -c [command]_ runs _command_ inside a _systemd_ login session, then exits. It follows _sudo_ semantics, and so does preserve the cwd.
 
 With either of the above, the _imp -a [user]_ option may be used to specify a particular user to start a shell for, or to run a command as, rather than using the currently logged-in user. For example, _imp -a bongo -s_ would start a shell as the user _bongo_.
 
-_imp -l_ opens a login prompt. This permits you to log in to the WSL distribution via _systemd_ as any user. The login prompt will return when you log out; to terminate the session, press ^] three times within one second. It follows _login_ semantics, and as such does not preserve the current working directory.
+_imp -l_ opens a login prompt. This permits you to log in to the WSL distribution via _systemd_ as any user. The login prompt will return when you log out; to terminate the session, press `^]` three times within one second. It follows _login_ semantics, and as such does not preserve the current working directory.
