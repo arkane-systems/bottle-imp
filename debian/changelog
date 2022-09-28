@@ -1,6 +1,6 @@
 bottle-imp (0.7) buster bullseye bookworm sid focal jammy; urgency=medium
 
-        * bump
+        * Replace the tmpfiles entries with tmp.conf/x11.conf exactly.
 
  -- Alistair Young <avatar@arkane-systems.net>  Tue, 27 Sep 2022 23:00:01 -0500
 
