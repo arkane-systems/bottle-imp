@@ -1,3 +1,9 @@
+bottle-imp (0.7) buster bullseye bookworm sid focal jammy; urgency=medium
+
+        * bump
+
+ -- Alistair Young <avatar@arkane-systems.net>  Tue, 27 Sep 2022 23:00:01 -0500
+
 bottle-imp (0.6) buster bullseye bookworm sid focal jammy; urgency=medium
 
         * Additions to tmpfiles for things disabled by systemd support.
