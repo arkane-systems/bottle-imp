@@ -11,7 +11,7 @@ ConditionPathExists=/mnt/wslg/.X11-unix
 What=/mnt/wslg/.X11-unix
 Where=/tmp/.X11-unix
 Type=none
-Options=bind
+Options=bind,ro
 
 [Install]
 WantedBy=sysinit.target
