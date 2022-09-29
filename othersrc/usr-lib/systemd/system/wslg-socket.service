@@ -1,0 +1,15 @@
+[Unit]
+Description=WSLg socket remount service
+After=tmp.mount
+After=systemd-tmpfiles.setup.service
+Before=multi-user.target
+ConditionPathExists=/tmp/.X11-unix
+ConditionPathIsMountPoint=!/tmp/.X11-unix
+ConditionPathExists=/mnt/wslg/.X11-unix
+
+[Service]
+Type=oneshot
+ExecStart=/bin/mount --bind -o ro /mnt/wslg/.X11-unix /tmp/.X11-unix
+
+[Install]
+WantedBy=multi-user.target
