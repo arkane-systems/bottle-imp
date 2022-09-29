@@ -3,7 +3,7 @@
 #
 
 # Bottle-Imp version
-IMPVERSION = 0.5
+IMPVERSION = 0.7
 
 # Determine this makefile's path.
 # Be sure to place this BEFORE `include` directives, if any.
@@ -163,18 +163,13 @@ internal-package:
 
 	# Runtime dir mapping
 	install -Dm 0755 -o root "othersrc/scripts/wait-forever.sh" -t "$(INSTALLDIR)"
-	install -Dm 0755 -o root "othersrc/scripts/map-user-runtime-dir.sh" -t "$(INSTALLDIR)"
-	install -Dm 0755 -o root "othersrc/scripts/unmap-user-runtime-dir.sh" -t "$(INSTALLDIR)"
 
 	# Systemd services.
 	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/pstorefs.service" -T "$(SVCDIR)/pstorefs.service"
 	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/securityfs.service" -T "$(SVCDIR)/securityfs.service"
 
 	# WSLg mount file
-	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/tmp-.X11\x2dunix.mount" -T "$(SVCDIR)/tmp-.X11\x2dunix.mount"
-
-	# Tmpfiles.
-	install -Dm 0644 -o root "othersrc/usr-lib/tmpfiles.d/bottle-imp.conf" -T "$(USRLIBDIR)/tmpfiles.d/bottle-imp.conf"
+	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/wslg-socket.service" -T "$(SVCDIR)/wslg-socket.service"
 
 	# Unit override files.
 	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/user-runtime-dir@.service.d/override.conf" -t "$(SVCDIR)/user-runtime-dir@.service.d"
@@ -214,9 +209,9 @@ internal-supplement:
 	mkdir -p "$(ETCSVCDIR)/sysinit.target.wants"
 	ln -sr $(SVCDIR)/pstorefs.service $(ETCSVCDIR)/sysinit.target.wants/pstorefs.service
 	ln -sr $(SVCDIR)/securityfs.service $(ETCSVCDIR)/sysinit.target.wants/securityfs.service
-	ln -sr $(SVCDIR)/tmp-.X11\x2dunix.mount $(ETCSVCDIR)/sysinit.target.wants/tmp-.X11\x2dunix.mount
 
 	mkdir -p "$(ETCSVCDIR)/multi-user.target.wants"
+	ln -sr $(SVCDIR)/wslg-socket.service $(ETCSVCDIR)/multi-user.target.wants/wslg-socket.service
 	ln -sr $(SVCDIR)/systemd-machined.service $(ETCSVCDIR)/multi-user.target.wants/systemd-machined.service
 
 	# Cleanup temporary directory
