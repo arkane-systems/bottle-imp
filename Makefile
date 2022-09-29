@@ -209,9 +209,9 @@ internal-supplement:
 	mkdir -p "$(ETCSVCDIR)/sysinit.target.wants"
 	ln -sr $(SVCDIR)/pstorefs.service $(ETCSVCDIR)/sysinit.target.wants/pstorefs.service
 	ln -sr $(SVCDIR)/securityfs.service $(ETCSVCDIR)/sysinit.target.wants/securityfs.service
-	ln -sr $(SVCDIR)/wslg-socket.service $(ETCSVCDIR)/multi-user.target.wants/wslg-socket.service
 
 	mkdir -p "$(ETCSVCDIR)/multi-user.target.wants"
+	ln -sr $(SVCDIR)/wslg-socket.service $(ETCSVCDIR)/multi-user.target.wants/wslg-socket.service
 	ln -sr $(SVCDIR)/systemd-machined.service $(ETCSVCDIR)/multi-user.target.wants/systemd-machined.service
 
 	# Cleanup temporary directory
