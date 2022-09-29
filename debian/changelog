@@ -1,10 +1,16 @@
+bottle-imp (0.8) buster bullseye bookworm sid focal jammy; urgency=medium
+
+        * 0.68.2 - bump
+
+ -- Alistair Young <avatar@arkane-systems.net>  Tue, 29 Sep 2022 14:00:00 -0500
+
 bottle-imp (0.7) buster bullseye bookworm sid focal jammy; urgency=medium
 
         * 0.68.2 - remove the tmpfiles config.
         * 0.68.2 - user runtime directory handling adapted to pre-mapping.
         * 0.68.2 - modified .X11-unix mounting routine.
 
- -- Alistair Young <avatar@arkane-systems.net>  Tue, 27 Sep 2022 23:00:01 -0500
+ -- Alistair Young <avatar@arkane-systems.net>  Tue, 29 Sep 2022 13:00:00 -0500
 
 bottle-imp (0.6) buster bullseye bookworm sid focal jammy; urgency=medium
 
