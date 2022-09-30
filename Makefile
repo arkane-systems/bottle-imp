@@ -164,9 +164,10 @@ internal-package:
 	# Runtime dir mapping
 	install -Dm 0755 -o root "othersrc/scripts/wait-forever.sh" -t "$(INSTALLDIR)"
 
-	# Systemd services.
+	# Systemd-as-container compensation services.
 	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/pstorefs.service" -T "$(SVCDIR)/pstorefs.service"
 	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/securityfs.service" -T "$(SVCDIR)/securityfs.service"
+	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/remount-root-shared.service" -T "$(SVCDIR)/remount-root-shared.service"
 
 	# WSLg mount file
 	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/wslg-socket.service" -T "$(SVCDIR)/wslg-socket.service"
@@ -209,6 +210,7 @@ internal-supplement:
 	mkdir -p "$(ETCSVCDIR)/sysinit.target.wants"
 	ln -sr $(SVCDIR)/pstorefs.service $(ETCSVCDIR)/sysinit.target.wants/pstorefs.service
 	ln -sr $(SVCDIR)/securityfs.service $(ETCSVCDIR)/sysinit.target.wants/securityfs.service
+	ln -sr $(SVCDIR)/remount-root-shared.service $(ETCSVCDIR)/sysinit.target.wants/remount-root-shared.service
 
 	mkdir -p "$(ETCSVCDIR)/multi-user.target.wants"
 	ln -sr $(SVCDIR)/wslg-socket.service $(ETCSVCDIR)/multi-user.target.wants/wslg-socket.service
