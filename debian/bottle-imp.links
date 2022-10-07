@@ -2,3 +2,4 @@
 /usr/lib/systemd/system/pstorefs.service /etc/systemd/system/sysinit.target.wants/pstorefs.service
 /usr/lib/systemd/system/securityfs.service /etc/systemd/system/sysinit.target.wants/securityfs.service
 /usr/lib/systemd/system/wslg-socket.service /etc/systemd/system/multi-user.target.wants/wslg-socket.service
+/usr/lib/systemd/system/remount-root-shared.service /etc/systemd/system/sysinit.target.wants/remount-root-shared.service

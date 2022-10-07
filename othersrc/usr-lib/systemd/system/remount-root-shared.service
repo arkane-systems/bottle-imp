@@ -1,0 +1,11 @@
+[Unit]
+Description=Remount Root Filesystem Shared
+DefaultDependencies=no
+Before=sysinit.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/mount --make-rshared /
+
+[Install]
+WantedBy=sysinit.target
