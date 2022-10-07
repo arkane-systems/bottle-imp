@@ -3,7 +3,7 @@
 #
 
 # Bottle-Imp version
-IMPVERSION = 0.8
+IMPVERSION = 0.9
 
 # Determine this makefile's path.
 # Be sure to place this BEFORE `include` directives, if any.

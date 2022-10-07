@@ -10,7 +10,7 @@ import time
 import helpers
 
 # Global variables
-version = "0.8"
+version = "0.9"
 
 verbose = False
 login = None
