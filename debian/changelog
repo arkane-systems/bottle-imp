@@ -1,3 +1,9 @@
+bottle-imp (0.9) buster bullseye bookworm sid focal jammy; urgency=medium
+
+        * Handle user runtime directories other than uid=1000.
+
+ -- Alistair Young <avatar@arkane-systems.net>  Fri, 24 Oct 2022 14:00:00 -0500
+
 bottle-imp (0.8) buster bullseye bookworm sid focal jammy; urgency=medium
 
         * Added remounting of / as shared (container mode loss).

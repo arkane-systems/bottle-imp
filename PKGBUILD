@@ -1,6 +1,6 @@
 # Maintainer: Alistair Young <avatar@arkane-systems.net>
 pkgname=bottle-imp
-pkgver=0.7
+pkgver=0.9
 pkgrel=1
 pkgdesc="A helper for WSL's native systemd support."
 arch=('x86_64')
