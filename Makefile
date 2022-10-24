@@ -161,7 +161,8 @@ internal-package:
 	install -Dm 6755 -o root "binsrc/imp-wrapper/imp" -t "$(BINDIR)"
 	install -Dm 0755 -o root "binsrc/out/imp" -t "$(INSTALLDIR)"
 
-	# Runtime dir mapping
+	# Runtime dir mapping and waiting
+	install -Dm 0755 -o root "othersrc/scripts/imp-user-runtime-dir.sh" -t "$(INSTALLDIR)"
 	install -Dm 0755 -o root "othersrc/scripts/wait-forever.sh" -t "$(INSTALLDIR)"
 
 	# Systemd-as-container compensation services.
