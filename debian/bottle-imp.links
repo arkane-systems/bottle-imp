@@ -1,4 +1,5 @@
 /usr/lib/systemd/system/systemd-machined.service /etc/systemd/system/multi-user.target.wants/systemd-machined.service
+/usr/lib/systemd/system/imp-fixshm.service /etc/systemd/system/sysinit.target.wants/imp-fixshm.service
 /usr/lib/systemd/system/pstorefs.service /etc/systemd/system/sysinit.target.wants/pstorefs.service
 /usr/lib/systemd/system/securityfs.service /etc/systemd/system/sysinit.target.wants/securityfs.service
 /usr/lib/systemd/system/wslg-socket.service /etc/systemd/system/multi-user.target.wants/wslg-socket.service

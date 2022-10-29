@@ -1,0 +1,19 @@
+[Unit]
+Description=bottle-imp - Fix the /dev/shm symlink to be a mount
+DefaultDependencies=no
+Before=sysinit.target
+ConditionPathExists=/dev/shm
+ConditionPathIsSymbolicLink=/dev/shm
+ConditionPathIsMountPoint=/run/shm
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/rm /dev/shm
+ExecStart=/usr/bin/mkdir /dev/shm
+ExecStart=/bin/umount /run/shm
+ExecStart=/usr/bin/rmdir /run/shm
+ExecStart=/bin/mount -t tmpfs -o mode=1777,nosuid,nodev,strictatime tmpfs /dev/shm
+ExecStart=/usr/bin/ln -s /dev/shm /run/shm
+
+[Install]
+WantedBy=sysinit.target
