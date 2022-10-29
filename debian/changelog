@@ -1,3 +1,9 @@
+bottle-imp (0.11) buster bullseye bookworm sid focal jammy; urgency=medium
+
+        * bump
+
+ -- Alistair Young <avatar@arkane-systems.net>  Sat, 29 Oct 2022 19:00:01 -0500
+
 bottle-imp (0.10) buster bullseye bookworm sid focal jammy; urgency=medium
 
         * Added fix for /dev/shm / /run/shm inversion.
