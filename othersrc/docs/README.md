@@ -20,10 +20,12 @@ article here.
 The following features are provided by _bottle-imp_ (see the above article for more in-depth explanations):
 
   * Ensures that _securityfs_ (needed for AppArmor and LSMs) and _pstorefs_ (for debugging panics) are mounted.
-  * Ensures that the symlink of `/tmp/.X11-unix/X0`, which makes WSLg work, is restored after _systemd_ clears out `/tmp`.
+  * Ensures that the shared memory area filesystem is mounted at _/dev/shm_ and _/run/shm_, not vice versa.
+  * Ensures that the root file system is mounted with shared propagation.
+  * Ensures that the bind mount of `/tmp/.X11-unix/X0`, which makes WSLg work, is restored after _systemd_ clears out `/tmp`.
   * Ensures that WSL interop is working, even after _systemd_ rebuilds the binfmts.
+  * Ensures that the WSLg-created user runtime directory is mounted for the appropriate user, and is not mounted for other users.
   * Makes sure _systemd_ is up and running before proceeding.
-  * Mounts the WSLg-created user runtime directory over the _systemd_ user runtime directory, ensuring everything's in the right place.
   * Keeps the WSL instance running even when you have no active sessions.
 
 and the big one
@@ -96,7 +98,7 @@ commands:
   -s, --shell           open or connect to a systemd user session, and run a shell in it
   -l, --login           open a login prompt for a systemd user session
   -c ..., --command ...
-                        open or connect to a systemd user session, and run the specified command in it (preserves working directory)
+                        open or connect to a systemd user session, and run the specified command within it (preserves working directory)
 
 For more information, see https://github.com/arkane-systems/bottle-imp/
 ```
