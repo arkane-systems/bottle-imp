@@ -1,5 +1,5 @@
 [Unit]
-Description=WSLg socket remount service
+Description=bottle-imp - WSLg socket remount service
 After=tmp.mount
 After=systemd-tmpfiles.setup.service
 Before=multi-user.target

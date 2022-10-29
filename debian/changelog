@@ -1,6 +1,7 @@
 bottle-imp (0.10) buster bullseye bookworm sid focal jammy; urgency=medium
 
         * Added fix for /dev/shm / /run/shm inversion.
+        * Renamed systemd services with imp- prefix.
 
  -- Alistair Young <avatar@arkane-systems.net>  Mon, 24 Oct 2022 14:00:01 -0500
 

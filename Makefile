@@ -167,12 +167,12 @@ internal-package:
 
 	# Systemd-as-container compensation services.
 	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/imp-fixshm.service" -T "$(SVCDIR)/imp-fixshm.service"
-	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/pstorefs.service" -T "$(SVCDIR)/pstorefs.service"
-	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/securityfs.service" -T "$(SVCDIR)/securityfs.service"
-	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/remount-root-shared.service" -T "$(SVCDIR)/remount-root-shared.service"
+	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/imp-pstorefs.service" -T "$(SVCDIR)/imp-pstorefs.service"
+	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/imp-securityfs.service" -T "$(SVCDIR)/imp-securityfs.service"
+	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/imp-remount-root-shared.service" -T "$(SVCDIR)/imp-remount-root-shared.service"
 
 	# WSLg mount file
-	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/wslg-socket.service" -T "$(SVCDIR)/wslg-socket.service"
+	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/imp-wslg-socket.service" -T "$(SVCDIR)/imp-wslg-socket.service"
 
 	# Unit override files.
 	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/user-runtime-dir@.service.d/override.conf" -t "$(SVCDIR)/user-runtime-dir@.service.d"
@@ -211,12 +211,12 @@ internal-supplement:
 
 	mkdir -p "$(ETCSVCDIR)/sysinit.target.wants"
 	ln -sr $(SVCDIR)/imp-fixshm.service $(ETCSVCDIR)/sysinit.target.wants/imp-fixshm.service
-	ln -sr $(SVCDIR)/pstorefs.service $(ETCSVCDIR)/sysinit.target.wants/pstorefs.service
-	ln -sr $(SVCDIR)/securityfs.service $(ETCSVCDIR)/sysinit.target.wants/securityfs.service
-	ln -sr $(SVCDIR)/remount-root-shared.service $(ETCSVCDIR)/sysinit.target.wants/remount-root-shared.service
+	ln -sr $(SVCDIR)/imp-pstorefs.service $(ETCSVCDIR)/sysinit.target.wants/imp-pstorefs.service
+	ln -sr $(SVCDIR)/imp-securityfs.service $(ETCSVCDIR)/sysinit.target.wants/imp-securityfs.service
+	ln -sr $(SVCDIR)/imp-remount-root-shared.service $(ETCSVCDIR)/sysinit.target.wants/imp-remount-root-shared.service
 
 	mkdir -p "$(ETCSVCDIR)/multi-user.target.wants"
-	ln -sr $(SVCDIR)/wslg-socket.service $(ETCSVCDIR)/multi-user.target.wants/wslg-socket.service
+	ln -sr $(SVCDIR)/imp-wslg-socket.service $(ETCSVCDIR)/multi-user.target.wants/imp-wslg-socket.service
 	ln -sr $(SVCDIR)/systemd-machined.service $(ETCSVCDIR)/multi-user.target.wants/systemd-machined.service
 
 	# Cleanup temporary directory
