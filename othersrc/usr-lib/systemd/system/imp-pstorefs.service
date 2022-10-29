@@ -1,5 +1,5 @@
 [Unit]
-Description=Kernel Persistent Storage File System
+Description=bottle-imp - Kernel Persistent Storage File System
 DefaultDependencies=no
 Before=sysinit.target
 Before=systemd-pstore.service

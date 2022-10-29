@@ -1,5 +1,5 @@
 [Unit]
-Description=Kernel Security File System
+Description=bottle-imp - Kernel Security File System
 DefaultDependencies=no
 Before=sysinit.target
 Before=apparmor.service
