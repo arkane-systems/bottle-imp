@@ -14,6 +14,7 @@
 .Op -i
 .Op -s
 .Op -l
+.Op -u
 .Op -c
 .Ar command...
 .Sh DESCRIPTION
@@ -64,6 +65,21 @@ distribution with
 installed.
 .Pp
 Unlike the other options, this preserves the current working directory.
+.It Fl u, -shutdown
+Shuts down
+.Xr systemd 1
+cleanly and exits the WSL instance. This uses the
+.Ar systemctl poweroff
+command to simulate a normal Linux system shutting down. It is suggested that
+this be used before shutting down the Windows machine or force-terminating WSL
+to ensure a clean shutdown of
+.Xr systemd 1
+services.
+.Pp
+Shutting down the WSL instance in this way causes it to exit
+.Ar completely.
+You should wait for the instance to show as stopped before attempting to restart it
+or execute further commands inside it.
 .El
 .Sh EXIT STATUS
 .Nm
@@ -86,6 +102,43 @@ undefined.
 .Xr bootup 7 ,
 .Xr systemd-machined 8 ,
 .Sh BUGS
+1. Using
+.Nm
+to create a session is required for the user login session (and its concomitants, such as a user 
+.Xr systemd 1
+instance and a session dbus) to be created properly. Simply starting a process with
+.Ar wsl
+(or using a Linux GUI app shortcut) does not do this, although the problem is less serious than with
+.Ar genie
+, since the process will still be started with
+.Xr systemd 1
+as pid 1.
+.Pp
+2. While the Windows Terminal environment variables, WT_SESSION and WT_PROFILE_ID, will be passed
+through to shell and command prompt invocations of
+.Nm
+, they will not be passed through to login sessions created with
+.Ar imp -l
+, due to a limitation in
+.Xr machinectl 1
+.
+.Pp
+3.
+.Nm
+requires the Python package 
+.Ar psutil
+, which due to technical limitations of 
+.Ar zipapp
+can't be wrapped into the 
+.Nm
+executable. As such,
+.Nm
+depends on this package for the system Python. If you are inside another Python environment,
+.Nm
+may fail unless you install the 
+.Ar psutil
+package into this environment also.
+.Pp
 If you feel you have found a bug in
 .Nm
 please submit a bug report at

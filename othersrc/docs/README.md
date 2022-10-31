@@ -99,6 +99,7 @@ commands:
   -l, --login           open a login prompt for a systemd user session
   -c ..., --command ...
                         open or connect to a systemd user session, and run the specified command within it (preserves working directory)
+  -u, --shutdown        shut down systemd and the WSL instance
 
 For more information, see https://github.com/arkane-systems/bottle-imp/
 ```
@@ -118,3 +119,18 @@ _imp -c [command]_ runs _command_ inside a _systemd_ login session, then exits. 
 With either of the above, the _imp -a [user]_ option may be used to specify a particular user to start a shell for, or to run a command as, rather than using the currently logged-in user. For example, _imp -a bongo -s_ would start a shell as the user _bongo_.
 
 _imp -l_ opens a login prompt. This permits you to log in to the WSL distribution via _systemd_ as any user. The login prompt will return when you log out; to terminate the session, press `^]` three times within one second. It follows _login_ semantics, and as such does not preserve the current working directory.
+
+_imp -u_ will shut down _systemd_ cleanly and exit the WSL instance. This uses the _systemctl poweroff_ command to
+simulate a normal Linux system shutting down. It is suggested that this be used before shutting down the Windows machine or force-terminating WSL to ensure a clean shutdown of _systemd_ services.
+
+Shutting down the WSL instance in this way causes it to exit completely. You should wait for the instance to show as stopped before attempting to restart it or execute further commands inside it.
+
+## BUGS
+
+1. Using _imp_ to create a session is required for the user login session (and its concomitants, such as a user _systemd_ instance and a session dbus) to be created properly. Simply starting a process with _wsl_ (or using a Linux GUI app shortcut) does not do this, although the problem is less serious than with _genie_, since the process will still be started with _systemd_ as pid 1.
+
+For information about starting Visual Studio Code remote sessions in login sessions, see https://github.com/arkane-systems/bottle-imp/discussions/19 .
+
+2. While the Windows Terminal environment variables, WT_SESSION and WT_PROFILE_ID, will be passed through to shell and command prompt invocations of _imp_, they will not be passed through to login sessions created with _imp -l_, due to a limitation in _machinectl_.
+
+3. _imp_ requires the python package _psutil_, which due to technical limitations of _zipapp_ can't be wrapped into the _imp_ executable. As such, _imp_ depends on this package for the system _python_. If you are inside another python environment, _imp_ may fail unless you install the _psutil_ package into this environment also.
