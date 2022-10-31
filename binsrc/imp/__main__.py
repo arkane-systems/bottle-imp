@@ -47,6 +47,8 @@ def parse_command_line():
                        help='open a login prompt for a systemd user session')
     group.add_argument(
         '-c', '--command', help='open or connect to a systemd user session, and run the specified command in it\n(preserves working directory)', nargs=argparse.REMAINDER)
+    group.add_argument('-u', '--shutdown', action='store_true',
+                       help='shut down systemd and the WSL instance')
 
     return parser.parse_args()
 
@@ -189,6 +191,16 @@ def do_command(commandline):
     os.execv ('/usr/bin/machinectl', command)
 
 
+def do_shutdown():
+    """Shut down systemd and the WSL instance."""
+    wait_for_systemd()
+
+    if verbose:
+        print ("imp: shutting down WSL instance")
+
+    os.execv('/usr/bin/systemctl', ['systemctl', 'poweroff'])
+
+
 # Entrypoint
 def entrypoint():
     """Entrypoint of the application."""
@@ -225,6 +237,8 @@ def entrypoint():
         do_shell()
     elif arguments.login:
         do_login()
+    elif arguments.shutdown:
+        do_shutdown()
     elif arguments.command is not None:
         do_command(arguments.command)
     else:

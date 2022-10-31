@@ -99,6 +99,7 @@ commands:
   -l, --login           open a login prompt for a systemd user session
   -c ..., --command ...
                         open or connect to a systemd user session, and run the specified command within it (preserves working directory)
+  -u, --shutdown        shut down systemd and the WSL instance
 
 For more information, see https://github.com/arkane-systems/bottle-imp/
 ```
@@ -118,6 +119,11 @@ _imp -c [command]_ runs _command_ inside a _systemd_ login session, then exits. 
 With either of the above, the _imp -a [user]_ option may be used to specify a particular user to start a shell for, or to run a command as, rather than using the currently logged-in user. For example, _imp -a bongo -s_ would start a shell as the user _bongo_.
 
 _imp -l_ opens a login prompt. This permits you to log in to the WSL distribution via _systemd_ as any user. The login prompt will return when you log out; to terminate the session, press `^]` three times within one second. It follows _login_ semantics, and as such does not preserve the current working directory.
+
+_imp -u_ will shut down _systemd_ cleanly and exit the WSL instance. This uses the _systemctl poweroff_ command to
+simulate a normal Linux system shutting down. It is suggested that this be used before shutting down the Windows machine or force-terminating WSL to ensure a clean shutdown of _systemd_ services.
+
+Shutting down the WSL instance in this way causes it to exit completely. You should wait for the instance to show as stopped before attempting to restart it or execute further commands inside it.
 
 ## BUGS
 

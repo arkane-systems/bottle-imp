@@ -14,6 +14,7 @@
 .Op -i
 .Op -s
 .Op -l
+.Op -u
 .Op -c
 .Ar command...
 .Sh DESCRIPTION
@@ -64,6 +65,21 @@ distribution with
 installed.
 .Pp
 Unlike the other options, this preserves the current working directory.
+.It Fl u, -shutdown
+Shuts down
+.Xr systemd 1
+cleanly and exits the WSL instance. This uses the
+.Ar systemctl poweroff
+command to simulate a normal Linux system shutting down. It is suggested that
+this be used before shutting down the Windows machine or force-terminating WSL
+to ensure a clean shutdown of
+.Xr systemd 1
+services.
+.Pp
+Shutting down the WSL instance in this way causes it to exit
+.Ar completely.
+You should wait for the instance to show as stopped before attempting to restart it
+or execute further commands inside it.
 .El
 .Sh EXIT STATUS
 .Nm
