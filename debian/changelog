@@ -5,7 +5,7 @@ bottle-imp (0.11) buster bullseye bookworm sid focal jammy; urgency=medium
         * Add shutdown helper command.
         * Added bugs section to documentation.
 
- -- Alistair Young <avatar@arkane-systems.net>  Sat, 29 Oct 2022 19:00:01 -0500
+ -- Alistair Young <avatar@arkane-systems.net>  Mon, 31 Oct 2022 15:00:00 -0500
 
 bottle-imp (0.10) buster bullseye bookworm sid focal jammy; urgency=medium
 
