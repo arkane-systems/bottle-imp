@@ -113,7 +113,8 @@ def do_initialize():
     wait_for_systemd()
 
     # Update the base environment with interop-fu.
-    subprocess.run(['systemctl', 'import-environment', 'WSL_INTEROP'])
+    subprocess.run(['systemctl', 'import-environment',
+        'WSL_INTEROP', 'WSL2_GUI_APPS_ENABLED', 'WSL_DISTRO_NAME', 'WSLENV', 'NAME', 'HOSTTYPE'])
 
     # Run wait-forever subprocess.
     subprocess.Popen(['/usr/lib/bottle-imp/wait-forever.sh'],
