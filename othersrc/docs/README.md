@@ -123,6 +123,8 @@ _imp -l_ opens a login prompt. This permits you to log in to the WSL distributio
 
 1. Using _imp_ to create a session is required for the user login session (and its concomitants, such as a user _systemd_ instance and a session dbus) to be created properly. Simply starting a process with _wsl_ (or using a Linux GUI app shortcut) does not do this, although the problem is less serious than with _genie_, since the process will still be started with _systemd_ as pid 1.
 
+For information about starting Visual Studio Code remote sessions in login sessions, see https://github.com/arkane-systems/bottle-imp/discussions/19 .
+
 2. While the Windows Terminal environment variables, WT_SESSION and WT_PROFILE_ID, will be passed through to shell and command prompt invocations of _imp_, they will not be passed through to login sessions created with _imp -l_, due to a limitation in _machinectl_.
 
 3. _imp_ requires the python package _psutil_, which due to technical limitations of _zipapp_ can't be wrapped into the _imp_ executable. As such, _imp_ depends on this package for the system _python_. If you are inside another python environment, _imp_ may fail unless you install the _psutil_ package into this environment also.
