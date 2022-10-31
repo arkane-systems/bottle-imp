@@ -129,6 +129,7 @@ def do_initialize():
     # Exit
     sys.exit(0)
 
+
 def do_login():
     """Start a systemd login prompt."""
     wait_for_systemd()
@@ -142,6 +143,7 @@ def do_login():
     os.execv ('/usr/bin/machinectl', ['machinectl', 'login', '.host'])
     # never get here
 
+
 def do_shell():
     """Start/connect to a systemd user session with a shell."""
     wait_for_systemd()
@@ -152,8 +154,16 @@ def do_shell():
     if verbose:
         print("imp: starting shell")
 
-    os.execv ('/usr/bin/machinectl', ['machinectl', 'shell', '-q', login + '@.host'])
+    if helpers.get_in_windows_terminal():
+        os.execv ('/usr/bin/machinectl', ['machinectl',
+            '-E', 'WT_SESSION', '-E', 'WT_PROFILE_ID',
+            'shell', '-q', login + '@.host'])
+    else:
+        os.execv ('/usr/bin/machinectl', ['machinectl',
+            'shell', '-q', login + '@.host'])
+    
     # never get here
+
 
 def do_command(commandline):
     """Start/connect to a systemd user session with a command."""
@@ -168,9 +178,16 @@ def do_command(commandline):
     if len(commandline) == 0:
         sys.exit("imp: no command specified")
 
-    command = ['machinectl', 'shell', '-q', login + '@.host', '/usr/bin/env', '-C', os.getcwd()] + commandline;
+    if helpers.get_in_windows_terminal():
+        command = ['machinectl',
+            '-E', 'WT_SESSION', '-E', 'WT_PROFILE_ID',
+            'shell', '-q', login + '@.host', '/usr/bin/env', '-C', os.getcwd()] + commandline;
+    else:
+        command = ['machinectl',
+            'shell', '-q', login + '@.host', '/usr/bin/env', '-C', os.getcwd()] + commandline;
 
     os.execv ('/usr/bin/machinectl', command)
+
 
 # Entrypoint
 def entrypoint():

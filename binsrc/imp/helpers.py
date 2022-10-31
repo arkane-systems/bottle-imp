@@ -6,6 +6,15 @@ import sys
 import psutil
 import pwd
 
+
+def get_in_windows_terminal():
+    """Are we inside a Windows Terminal session?"""
+    if 'WT_SESSION' in os.environ:
+        return True
+    else:
+        return False
+
+
 def get_login_session_user():
     """Get the user logged into the current session, pre-setuid."""
     # This environment variable is set by the setuid wrapper.
