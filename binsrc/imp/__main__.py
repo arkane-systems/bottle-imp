@@ -7,6 +7,7 @@ import subprocess
 import sys
 import time
 
+import configuration
 import helpers
 
 # Global variables
@@ -63,7 +64,7 @@ def wait_for_systemd():
         # wait for it
         print("imp: dbus is not available yet, please wait...", end="", flush=True)
 
-        timeout = 240 # hardcode this for now
+        timeout = configuration.dbus_timeout()
 
         while not os.path.exists('/run/dbus/system_bus_socket'):
             time.sleep(1)
@@ -86,7 +87,7 @@ def wait_for_systemd():
         # wait for it
         print("imp: systemd is starting up, please wait...", end="", flush=True)
 
-        timeout = 240 # hardcode this for now
+        timeout = configuration.systemd_timeout()
 
         while ('running' not in state and 'degraded' not in state) and timeout > 0:
             time.sleep(1)
@@ -103,6 +104,7 @@ def wait_for_systemd():
 
     if 'degraded' in state:
         print('imp: WARNING: systemd is in degraded state, issues may occur!')
+        print('imp: check for failed units with "systemctl --failed".')
 
     if not ('running' in state or 'degraded' in state):
         sys.exit("imp: systemd in unsupported state '"

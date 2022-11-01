@@ -125,6 +125,18 @@ simulate a normal Linux system shutting down. It is suggested that this be used 
 
 Shutting down the WSL instance in this way causes it to exit completely. You should wait for the instance to show as stopped before attempting to restart it or execute further commands inside it.
 
+### Configuration file
+
+While one is not supplied by default, a configuration file can be created at `/etc/imp.ini`, with contents similar to the following:
+
+```
+[imp]
+dbus-timeout=240
+systemd-timeout=240
+```
+
+The _*-timeout_ settings control how long _imp_ will wait for the system dbus socket to be available, and how long, once it is, _imp_ will wait for _systemd_ to enter either the running or degraded state before giving up. Under normal circumstances, there is no need to set either of these, since _imp_ will move immediately to the next state when it is ready. However, if engaged in extensive _systemd_ debugging or if one is using a particularly slow machine, these timeouts can be controlled here.
+
 ## BUGS
 
 1. Using _imp_ to create a session is required for the user login session (and its concomitants, such as a user _systemd_ instance and a session dbus) to be created properly. Simply starting a process with _wsl_ (or using a Linux GUI app shortcut) does not do this, although the problem is less serious than with _genie_, since the process will still be started with _systemd_ as pid 1.
