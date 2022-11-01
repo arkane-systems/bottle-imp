@@ -1,9 +1,6 @@
 bottle-imp (0.12) buster bullseye bookworm sid focal jammy; urgency=medium
 
-        * Added various environment variables to the passthrough list.
-        * Pass through Windows Terminal variables on shell/command.
-        * Add shutdown helper command.
-        * Added bugs section to documentation.
+        * Fix issue breaking -s and -c on systemd < 250 (fixes #28).
 
  -- Alistair Young <avatar@arkane-systems.net>  Mon, 31 Oct 2022 15:00:01 -0500
 

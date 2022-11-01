@@ -158,7 +158,8 @@ def do_shell():
 
     if helpers.get_in_windows_terminal():
         os.execv ('/usr/bin/machinectl', ['machinectl',
-            '-E', 'WT_SESSION', '-E', 'WT_PROFILE_ID',
+            '-E', 'WT_SESSION=' + os.environ['WT_SESSION'],
+            '-E', 'WT_PROFILE_ID=' + os.environ['WT_PROFILE_ID'],
             'shell', '-q', login + '@.host'])
     else:
         os.execv ('/usr/bin/machinectl', ['machinectl',
@@ -182,7 +183,8 @@ def do_command(commandline):
 
     if helpers.get_in_windows_terminal():
         command = ['machinectl',
-            '-E', 'WT_SESSION', '-E', 'WT_PROFILE_ID',
+            '-E', 'WT_SESSION=' + os.environ['WT_SESSION'],
+            '-E', 'WT_PROFILE_ID=' + os.environ['WT_PROFILE_ID'],
             'shell', '-q', login + '@.host', '/usr/bin/env', '-C', os.getcwd()] + commandline;
     else:
         command = ['machinectl',
