@@ -15,7 +15,7 @@ def dbus_timeout():
 
 def systemd_timeout():
     """Return the configured timeout for systemd to enter the running state."""
-    return _config.getinit('imp', 'systemd-timeout', fallback=240)
+    return _config.getint('imp', 'systemd-timeout', fallback=240)
 
 
 # Initialization
