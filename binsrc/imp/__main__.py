@@ -212,6 +212,7 @@ def entrypoint():
     global login
 
     helpers.prelaunch_checks()
+    configuration.load()
     arguments = parse_command_line()
 
     # Set globals.
