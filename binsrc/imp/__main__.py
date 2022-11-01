@@ -11,7 +11,7 @@ import configuration
 import helpers
 
 # Global variables
-version = "0.13"
+version = "0.14"
 
 verbose = False
 login = None

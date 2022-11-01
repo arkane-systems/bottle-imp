@@ -2,6 +2,12 @@ bottle-imp (0.13) buster bullseye bookworm sid focal jammy; urgency=medium
 
         * bump
 
+ -- Alistair Young <avatar@arkane-systems.net>  Tue, 1 Nov 2022 09:00:02 -0500
+
+bottle-imp (0.13) buster bullseye bookworm sid focal jammy; urgency=medium
+
+        * See 0.12.
+
  -- Alistair Young <avatar@arkane-systems.net>  Tue, 1 Nov 2022 09:00:01 -0500
 
 bottle-imp (0.12) buster bullseye bookworm sid focal jammy; urgency=medium
