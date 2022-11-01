@@ -1,3 +1,10 @@
+bottle-imp (0.12) buster bullseye bookworm sid focal jammy; urgency=medium
+
+        * Fix issue breaking -s and -c on systemd < 250 (fixes #28).
+        * Add configuration file for timeouts.
+
+ -- Alistair Young <avatar@arkane-systems.net>  Tue, 1 Nov 2022 09:00:00 -0500
+
 bottle-imp (0.11) buster bullseye bookworm sid focal jammy; urgency=medium
 
         * Added various environment variables to the passthrough list.

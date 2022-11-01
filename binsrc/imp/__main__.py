@@ -7,10 +7,11 @@ import subprocess
 import sys
 import time
 
+import configuration
 import helpers
 
 # Global variables
-version = "0.11"
+version = "0.12"
 
 verbose = False
 login = None
@@ -63,7 +64,7 @@ def wait_for_systemd():
         # wait for it
         print("imp: dbus is not available yet, please wait...", end="", flush=True)
 
-        timeout = 240 # hardcode this for now
+        timeout = configuration.dbus_timeout()
 
         while not os.path.exists('/run/dbus/system_bus_socket'):
             time.sleep(1)
@@ -86,7 +87,7 @@ def wait_for_systemd():
         # wait for it
         print("imp: systemd is starting up, please wait...", end="", flush=True)
 
-        timeout = 240 # hardcode this for now
+        timeout = configuration.systemd_timeout()
 
         while ('running' not in state and 'degraded' not in state) and timeout > 0:
             time.sleep(1)
@@ -103,6 +104,7 @@ def wait_for_systemd():
 
     if 'degraded' in state:
         print('imp: WARNING: systemd is in degraded state, issues may occur!')
+        print('imp: check for failed units with "systemctl --failed".')
 
     if not ('running' in state or 'degraded' in state):
         sys.exit("imp: systemd in unsupported state '"
@@ -158,7 +160,8 @@ def do_shell():
 
     if helpers.get_in_windows_terminal():
         os.execv ('/usr/bin/machinectl', ['machinectl',
-            '-E', 'WT_SESSION', '-E', 'WT_PROFILE_ID',
+            '-E', 'WT_SESSION=' + os.environ['WT_SESSION'],
+            '-E', 'WT_PROFILE_ID=' + os.environ['WT_PROFILE_ID'],
             'shell', '-q', login + '@.host'])
     else:
         os.execv ('/usr/bin/machinectl', ['machinectl',
@@ -182,7 +185,8 @@ def do_command(commandline):
 
     if helpers.get_in_windows_terminal():
         command = ['machinectl',
-            '-E', 'WT_SESSION', '-E', 'WT_PROFILE_ID',
+            '-E', 'WT_SESSION=' + os.environ['WT_SESSION'],
+            '-E', 'WT_PROFILE_ID=' + os.environ['WT_PROFILE_ID'],
             'shell', '-q', login + '@.host', '/usr/bin/env', '-C', os.getcwd()] + commandline;
     else:
         command = ['machinectl',
