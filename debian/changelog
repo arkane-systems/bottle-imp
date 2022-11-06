@@ -1,6 +1,6 @@
-bottle-imp (0.13) buster bullseye bookworm sid focal jammy; urgency=medium
+bottle-imp (0.14) buster bullseye bookworm sid focal jammy; urgency=medium
 
-        * bump
+        * Change over to generator-based model.
 
  -- Alistair Young <avatar@arkane-systems.net>  Tue, 1 Nov 2022 09:00:02 -0500
 
