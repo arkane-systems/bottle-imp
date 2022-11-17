@@ -137,7 +137,7 @@ imp_wslg_socket = """# imp-generator
 [Unit]
 Description=bottle-imp - WSLg socket remount service
 After=tmp.mount
-After=systemd-tmpfiles.setup.service
+After=systemd-tmpfiles-setup.service
 Before=multi-user.target
 ConditionPathExists=/tmp/.X11-unix
 ConditionPathIsMountPoint=!/tmp/.X11-unix
