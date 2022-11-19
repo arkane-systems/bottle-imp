@@ -55,6 +55,7 @@ imp_fixshm = """# imp-generator
 Description=bottle-imp - Fix the /dev/shm symlink to be a mount
 DefaultDependencies=no
 Before=sysinit.target
+Before=procps.service syslog.service systemd-firstboot.service systemd-sysctl.service systemd-sysusers.service systemd-tmpfiles-clean.service systemd-tmpfiles-setup-dev.service systemd-tmpfiles-setup.service
 ConditionPathExists=/dev/shm
 ConditionPathIsSymbolicLink=/dev/shm
 ConditionPathIsMountPoint=/run/shm
@@ -121,6 +122,7 @@ imp_remount_root_shared="""# imp-generator
 Description=bottle-imp - Remount Root Filesystem Shared
 DefaultDependencies=no
 Before=sysinit.target
+Before=systemd-remount-fs.service
 
 [Service]
 Type=oneshot
