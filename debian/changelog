@@ -1,7 +1,7 @@
 bottle-imp (1.0) buster bullseye bookworm sid focal jammy; urgency=medium
 
         * Change over to generator-based model.
-        * Added additional unit prependencies to avoid race conditions (fixes #33).
+        * Added unit prependencies to avoid race conditions (fixes #33).
         * Reduced libc version requirement to ease buster install issues.
         * Move unit functions into imp-executor.
         * Move filesystem mounts to precede local-fs-pre.target.
