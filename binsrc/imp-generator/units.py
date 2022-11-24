@@ -45,6 +45,26 @@ def enable_override_conf (unit, override_text, normal_dir):
         o.write (override_text)
 
 
+def enable_binfmt(binfmt, binfmt_text):
+    # Create the dynamic binfmt.d if it does not already exist.
+    if not os.path.isdir ('/run/binfmt.d'):
+        os.mkdir ('/run/binfmt.d')
+
+    # Write out the override file.
+    with open (os.path.join ('/run/binfmt.d', binfmt), 'w') as b:
+        b.write (binfmt_text)
+
+
+def enable_tmpfile(tmpfile, tmpfile_text):
+    # Create the dynamic tmpfiles.d if it does not already exist.
+    if not os.path.isdir ('/run/tmpfiles.d'):
+        os.mkdir ('/run/tmpfiles.d')
+
+    # Write out the override file.
+    with open (os.path.join ('/run/tmpfiles.d', tmpfile), 'w') as t:
+        t.write (tmpfile_text)
+
+
 ## Units
 
 ### imp-fixshm.service / bottle-imp - Fix the /dev/shm symlink to be a mount
@@ -54,7 +74,7 @@ imp_fixshm = """# imp-generator
 [Unit]
 Description=bottle-imp - Fix the /dev/shm symlink to be a mount
 DefaultDependencies=no
-Before=sysinit.target
+Before=local-fs-pre.target.target
 Before=procps.service syslog.service systemd-firstboot.service systemd-sysctl.service systemd-sysusers.service systemd-tmpfiles-clean.service systemd-tmpfiles-setup-dev.service systemd-tmpfiles-setup.service
 ConditionPathExists=/dev/shm
 ConditionPathIsSymbolicLink=/dev/shm
@@ -62,15 +82,10 @@ ConditionPathIsMountPoint=/run/shm
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/rm /dev/shm
-ExecStart=/usr/bin/mkdir /dev/shm
-ExecStart=/bin/umount /run/shm
-ExecStart=/usr/bin/rmdir /run/shm
-ExecStart=/bin/mount -t tmpfs -o mode=1777,nosuid,nodev,strictatime tmpfs /dev/shm
-ExecStart=/usr/bin/ln -s /dev/shm /run/shm
+ExecStart=/usr/lib/bottle-imp/imp-executor devshm
 
 [Install]
-WantedBy=sysinit.target
+WantedBy=local-fs-pre.target
 """
 
 ### imp-pstorefs.service / bottle-imp - Kernel Persistent Storage File System
@@ -80,17 +95,17 @@ imp_pstorefs = """# imp-generator
 [Unit]
 Description=bottle-imp - Kernel Persistent Storage File System
 DefaultDependencies=no
-Before=sysinit.target
+Before=local-fs-pre.target
 Before=systemd-pstore.service
 ConditionPathExists=/sys/fs/pstore
 ConditionPathIsMountPoint=!/sys/fs/pstore
 
 [Service]
 Type=oneshot
-ExecStart=/bin/mount -t pstore -o nosuid,nodev,noexec pstore /sys/fs/pstore
+ExecStart=/usr/lib/bottle-imp/imp-executor pstore
 
 [Install]
-WantedBy=sysinit.target
+WantedBy=local-fs-pre.target
 """
 
 ### imp-securityfs.service / bottle-imp - Kernel Security File System
@@ -100,7 +115,7 @@ imp_securityfs="""# imp-generator
 [Unit]
 Description=bottle-imp - Kernel Security File System
 DefaultDependencies=no
-Before=sysinit.target
+Before=local-fs-pre.target
 Before=apparmor.service
 ConditionSecurity=apparmor
 ConditionPathExists=/sys/kernel/security
@@ -108,10 +123,10 @@ ConditionPathIsMountPoint=!/sys/kernel/security
 
 [Service]
 Type=oneshot
-ExecStart=/bin/mount -t securityfs -o nosuid,nodev,noexec securityfs /sys/kernel/security
+ExecStart=/usr/lib/bottle-imp/imp-executor security
 
 [Install]
-WantedBy=sysinit.target
+WantedBy=local-fs-pre.target
 """
 
 ### imp-remount-root-shared.service / bottle-imp - Remount Root Filesystem Shared
@@ -121,15 +136,15 @@ imp_remount_root_shared="""# imp-generator
 [Unit]
 Description=bottle-imp - Remount Root Filesystem Shared
 DefaultDependencies=no
-Before=sysinit.target
+Before=local-fs-pre.target
 Before=systemd-remount-fs.service
 
 [Service]
 Type=oneshot
-ExecStart=/bin/mount --make-rshared /
+ExecStart=/usr/lib/bottle-imp/imp-executor rrfs
 
 [Install]
-WantedBy=sysinit.target
+WantedBy=local-fs-pre.target
 """
 
 ### imp-wslg-socket.service / bottle-imp - WSLg socket remount service
@@ -147,7 +162,7 @@ ConditionPathExists=/mnt/wslg/.X11-unix
 
 [Service]
 Type=oneshot
-ExecStart=/bin/mount --bind -o ro /mnt/wslg/.X11-unix /tmp/.X11-unix
+ExecStart=/usr/lib/bottle-imp/imp-executor wslg
 
 [Install]
 WantedBy=multi-user.target
@@ -164,4 +179,29 @@ ExecStart=
 ExecStart=/usr/lib/bottle-imp/imp-user-runtime-dir.sh start %i
 ExecStop=
 ExecStop=/usr/lib/bottle-imp/imp-user-runtime-dir.sh stop %i
+"""
+
+## Binfmts
+
+### WSLInterop.conf
+
+bin_WSLInterop=""":WSLInterop:M::MZ::/init:PF"""
+
+## Tmpfiles
+
+### imp-x11.conf
+
+tmp_imp_x11="""# imp-generator
+
+# Does what systemd does but does not automatically remove an existing
+# /tmp/.X11-unix (protect WSLg link).
+
+# Make sure these are created by default so that nobody else can
+d! /tmp/.X11-unix 1777 root root 10d
+D! /tmp/.ICE-unix 1777 root root 10d
+D! /tmp/.XIM-unix 1777 root root 10d
+D! /tmp/.font-unix 1777 root root 10d
+
+# Unlink the X11 lock files
+r! /tmp/.X[0-9]*-lock
 """

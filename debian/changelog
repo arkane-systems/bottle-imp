@@ -3,6 +3,11 @@ bottle-imp (1.0) buster bullseye bookworm sid focal jammy; urgency=medium
         * Change over to generator-based model.
         * Added additional unit prependencies to avoid race conditions (fixes #33).
         * Reduced libc version requirement to ease buster install issues.
+        * Move unit functions into imp-executor.
+        * Move filesystem mounts to precede local-fs-pre.target.
+        * Move rather than remake /dev/shm.
+        * Moved WSLInterop binfmt into generator.
+        * Added modified X11 regenerating tmpfile.d to generator.
 
  -- Alistair Young <avatar@arkane-systems.net>  Tue, 1 Nov 2022 09:00:02 -0500
 

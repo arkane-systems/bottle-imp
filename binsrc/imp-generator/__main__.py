@@ -21,15 +21,19 @@ def entrypoint():
     units.enable_system_unit ('systemd-machined.service', 'multi-user.target.wants', normal_dir)
 
     # Write out the units and make their links.
-    units.enable_imp_unit ('imp-fixshm.service', units.imp_fixshm, 'sysinit.target.wants', normal_dir)
-    units.enable_imp_unit ('imp-pstorefs.service', units.imp_pstorefs, 'sysinit.target.wants', normal_dir)
-    units.enable_imp_unit ('imp-securityfs.service', units.imp_securityfs, 'sysinit.target.wants', normal_dir)
-    units.enable_imp_unit ('imp-remount-root-shared.service', units.imp_remount_root_shared, 'sysinit.target.wants', normal_dir)
+    units.enable_imp_unit ('imp-fixshm.service', units.imp_fixshm, 'local-fs-pre.target.wants', normal_dir)
+    units.enable_imp_unit ('imp-pstorefs.service', units.imp_pstorefs, 'local-fs-pre.target.wants', normal_dir)
+    units.enable_imp_unit ('imp-securityfs.service', units.imp_securityfs, 'local-fs-pre.target.wants', normal_dir)
+    units.enable_imp_unit ('imp-remount-root-shared.service', units.imp_remount_root_shared, 'local-fs-pre.target.wants', normal_dir)
 
     units.enable_imp_unit ('imp-wslg-socket.service', units.imp_wslg_socket, 'multi-user.target.wants', normal_dir)
 
     # Write out the override files.
     units.enable_override_conf ('user-runtime-dir@.service', units.user_runtime_dir_override, normal_dir)
+
+    # Write out the binfmts and tmpfiles.
+    units.enable_binfmt ('WSLInterop.conf', units.bin_WSLInterop)
+    units.enable_tmpfile ('imp-x11.conf', units.tmp_imp_x11)
 
 
 entrypoint()

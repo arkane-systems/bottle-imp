@@ -3,7 +3,7 @@
 #
 
 # Bottle-Imp version
-IMPVERSION = 0.14
+IMPVERSION = 1.0
 
 # Determine this makefile's path.
 # Be sure to place this BEFORE `include` directives, if any.
@@ -160,13 +160,11 @@ internal-package:
 	install -Dm 6755 -o root "binsrc/imp-wrapper/imp" -t "$(BINDIR)"
 	install -Dm 0755 -o root "binsrc/out/imp" -t "$(INSTALLDIR)"
 	install -Dm 0755 -o root "binsrc/out/imp-generator" -t "$(GENDIR)"
+	install -Dm 0755 -o root "binsrc/out/imp-executor" -t "$(INSTALLDIR)"
 
 	# scripts
 	install -Dm 0755 -o root "othersrc/scripts/imp-user-runtime-dir.sh" -t "$(INSTALLDIR)"
 	install -Dm 0755 -o root "othersrc/scripts/wait-forever.sh" -t "$(INSTALLDIR)"
-
-	# binfmt.d
-	install -Dm 0644 -o root "othersrc/usr-lib/binfmt.d/WSLInterop.conf" -t "$(USRLIBDIR)/binfmt.d"
 
 internal-clean:
 	make -C binsrc clean
