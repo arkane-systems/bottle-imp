@@ -3,7 +3,10 @@
 import os
 import sys
 
-import units
+from definitions import Generatee
+
+import genhelper
+import generatees
 
 def entrypoint():
     """Entry point for the imp-generator."""
@@ -17,23 +20,12 @@ def entrypoint():
     if not os.path.exists(normal_dir):
         sys.exit ("generated-file directory must exist")
 
-    # System units: enable systemd-machined if not already so.
-    units.enable_system_unit ('systemd-machined.service', 'multi-user.target.wants', normal_dir)
+    # Create generator helper.
+    gh = genhelper.GeneratorHelper(normal_dir)
 
-    # Write out the units and make their links.
-    units.enable_imp_unit ('imp-fixshm.service', units.imp_fixshm, 'local-fs-pre.target.wants', normal_dir)
-    units.enable_imp_unit ('imp-pstorefs.service', units.imp_pstorefs, 'local-fs-pre.target.wants', normal_dir)
-    units.enable_imp_unit ('imp-securityfs.service', units.imp_securityfs, 'local-fs-pre.target.wants', normal_dir)
-    units.enable_imp_unit ('imp-remount-root-shared.service', units.imp_remount_root_shared, 'local-fs-pre.target.wants', normal_dir)
-
-    units.enable_imp_unit ('imp-wslg-socket.service', units.imp_wslg_socket, 'multi-user.target.wants', normal_dir)
-
-    # Write out the override files.
-    units.enable_override_conf ('user-runtime-dir@.service', units.user_runtime_dir_override, normal_dir)
-
-    # Write out the binfmts and tmpfiles.
-    units.enable_binfmt ('WSLInterop.conf', units.bin_WSLInterop)
-    units.enable_tmpfile ('imp-x11.conf', units.tmp_imp_x11)
+    # Iterate through generatees.
+    for g in generatees.generatees:
+        g.generate(gh)
 
 
 entrypoint()

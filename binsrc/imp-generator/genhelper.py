@@ -6,7 +6,7 @@ class GeneratorHelper:
     """A class of helpers for writing systemd generators."""
     unit_dir = None
     binfmt_dir = '/run/binfmt.d'
-    tmpfiles_dir = '/run/tempfiles.d'
+    tmpfiles_dir = '/run/tmpfiles.d'
 
 
     def __init__ (self, unit_dir: str):
@@ -16,7 +16,7 @@ class GeneratorHelper:
     def enable_system_unit (self, unit_name: str, target: str):
         """Enable an existing system unit for a specific target."""
         # Create the target directory if it does not already exist.
-        target_dir = os.path.join (self.unit_dir, target)
+        target_dir = os.path.join (self.unit_dir, target + '.wants')
         if not os.path.isdir (target_dir):
             os.mkdir (target_dir)
 
@@ -54,7 +54,7 @@ class GeneratorHelper:
             return
 
         # Create the target directory if it does not already exist.
-        target_dir = os.path.join (self.unit_dir, target)
+        target_dir = os.path.join (self.unit_dir, target + '.wants')
 
         if not os.path.isdir (target_dir):
             os.mkdir (target_dir)
