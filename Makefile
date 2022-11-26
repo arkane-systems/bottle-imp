@@ -14,7 +14,7 @@ THIS_FILE := $(lastword $(MAKEFILE_LIST))
 INSTALLDIR = $(DESTDIR)/usr/lib/bottle-imp
 BINDIR = $(DESTDIR)/usr/bin
 USRLIBDIR = $(DESTDIR)/usr/lib
-GENDIR = $(DESTDIR)/lib/systemd/system-generators
+GENDIR = $(DESTDIR)/usr/lib/systemd/system-generators
 
 # used only by TAR installer
 MAN8DIR = $(DESTDIR)/usr/share/man/man8
