@@ -26,12 +26,13 @@ def print_help_message():
 
 
 def fix_dev_shm():
-    """Move the tmpfs for shared memory to /dev/shm and the symlink to /run/shm."""
+    """Move the tmpfs for shared memory to /dev/shm and bind mount it from /run/shm."""
     os.unlink ("/dev/shm")
     os.mkdir ("/dev/shm")
     mountie.mount ("/run/shm", "/dev/shm", "", mountie.MS_MOVE)
-    os.rmdir ("/run/shm")
-    os.symlink ("/dev/shm", "/run/shm")
+    mountie.mount ("/dev/shm", "/run/shm", "", mountie.MS_BIND)
+    # os.rmdir ("/run/shm")
+    # os.symlink ("/dev/shm", "/run/shm")
 
 
 def mount_pstore_filesystem():
