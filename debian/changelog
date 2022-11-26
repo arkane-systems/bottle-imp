@@ -1,5 +1,11 @@
 bottle-imp (1.0) buster bullseye bookworm sid focal jammy; urgency=medium
 
+        * bump
+
+ -- Alistair Young <avatar@arkane-systems.net>  Fri, 25 Nov 2022 15:00:01 -0500
+
+bottle-imp (1.0) buster bullseye bookworm sid focal jammy; urgency=medium
+
         * Change over to generator-based model.
         * Added unit prependencies to avoid race conditions (fixes #33).
         * Reduced libc version requirement to ease buster install issues.
@@ -9,7 +15,7 @@ bottle-imp (1.0) buster bullseye bookworm sid focal jammy; urgency=medium
         * Moved WSLInterop binfmt into generator.
         * Added modified X11 regenerating tmpfile.d to generator.
 
- -- Alistair Young <avatar@arkane-systems.net>  Fri, 25 Nov 2022 15:00:0o -0500
+ -- Alistair Young <avatar@arkane-systems.net>  Fri, 25 Nov 2022 15:00:00 -0500
 
 bottle-imp (0.13) buster bullseye bookworm sid focal jammy; urgency=medium
 
