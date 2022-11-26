@@ -3,7 +3,7 @@
 #
 
 # Bottle-Imp version
-IMPVERSION = 0.13
+IMPVERSION = 1.0
 
 # Determine this makefile's path.
 # Be sure to place this BEFORE `include` directives, if any.
@@ -13,13 +13,12 @@ THIS_FILE := $(lastword $(MAKEFILE_LIST))
 # the internal-package target.
 INSTALLDIR = $(DESTDIR)/usr/lib/bottle-imp
 BINDIR = $(DESTDIR)/usr/bin
-SVCDIR = $(DESTDIR)/usr/lib/systemd/system
 USRLIBDIR = $(DESTDIR)/usr/lib
+GENDIR = $(DESTDIR)/lib/systemd/system-generators
 
 # used only by TAR installer
 MAN8DIR = $(DESTDIR)/usr/share/man/man8
 DOCDIR = $(DESTDIR)/usr/share/doc/bottle-imp
-ETCSVCDIR = $(DESTDIR)/etc/systemd/system
 
 #
 # Default target: list options
@@ -160,25 +159,12 @@ internal-package:
 	mkdir -p "$(BINDIR)"
 	install -Dm 6755 -o root "binsrc/imp-wrapper/imp" -t "$(BINDIR)"
 	install -Dm 0755 -o root "binsrc/out/imp" -t "$(INSTALLDIR)"
+	install -Dm 0755 -o root "binsrc/out/imp-generator" -t "$(GENDIR)"
+	install -Dm 0755 -o root "binsrc/out/imp-executor" -t "$(INSTALLDIR)"
 
-	# Runtime dir mapping and waiting
+	# scripts
 	install -Dm 0755 -o root "othersrc/scripts/imp-user-runtime-dir.sh" -t "$(INSTALLDIR)"
 	install -Dm 0755 -o root "othersrc/scripts/wait-forever.sh" -t "$(INSTALLDIR)"
-
-	# Systemd-as-container compensation services.
-	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/imp-fixshm.service" -T "$(SVCDIR)/imp-fixshm.service"
-	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/imp-pstorefs.service" -T "$(SVCDIR)/imp-pstorefs.service"
-	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/imp-securityfs.service" -T "$(SVCDIR)/imp-securityfs.service"
-	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/imp-remount-root-shared.service" -T "$(SVCDIR)/imp-remount-root-shared.service"
-
-	# WSLg mount file
-	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/imp-wslg-socket.service" -T "$(SVCDIR)/imp-wslg-socket.service"
-
-	# Unit override files.
-	install -Dm 0644 -o root "othersrc/usr-lib/systemd/system/user-runtime-dir@.service.d/override.conf" -t "$(SVCDIR)/user-runtime-dir@.service.d"
-
-	# binfmt.d
-	install -Dm 0644 -o root "othersrc/usr-lib/binfmt.d/WSLInterop.conf" -t "$(USRLIBDIR)/binfmt.d"
 
 internal-clean:
 	make -C binsrc clean
@@ -208,16 +194,6 @@ internal-supplement:
 
 	mkdir -p $(MAN8DIR)
 	install -Dm 0644 -o root "$(TMPBUILDDIR)/imp.8.gz" -t $(MAN8DIR)
-
-	mkdir -p "$(ETCSVCDIR)/sysinit.target.wants"
-	ln -sr $(SVCDIR)/imp-fixshm.service $(ETCSVCDIR)/sysinit.target.wants/imp-fixshm.service
-	ln -sr $(SVCDIR)/imp-pstorefs.service $(ETCSVCDIR)/sysinit.target.wants/imp-pstorefs.service
-	ln -sr $(SVCDIR)/imp-securityfs.service $(ETCSVCDIR)/sysinit.target.wants/imp-securityfs.service
-	ln -sr $(SVCDIR)/imp-remount-root-shared.service $(ETCSVCDIR)/sysinit.target.wants/imp-remount-root-shared.service
-
-	mkdir -p "$(ETCSVCDIR)/multi-user.target.wants"
-	ln -sr $(SVCDIR)/imp-wslg-socket.service $(ETCSVCDIR)/multi-user.target.wants/imp-wslg-socket.service
-	ln -sr $(SVCDIR)/systemd-machined.service $(ETCSVCDIR)/multi-user.target.wants/systemd-machined.service
 
 	# Cleanup temporary directory
 	rm -rf $(TMPBUILDDIR)
