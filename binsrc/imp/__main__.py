@@ -158,6 +158,12 @@ def do_shell():
     if verbose:
         print("imp: starting shell")
 
+    if helpers.get_systemd_homed_active():
+        if verbose:
+            print("imp: systemd-homed active; activating home directory")
+
+        subprocess.run (['homectl', 'activate', login])
+
     if helpers.get_in_windows_terminal():
         os.execv ('/usr/bin/machinectl', ['machinectl',
             '-E', 'WT_SESSION=' + os.environ['WT_SESSION'],
@@ -182,6 +188,12 @@ def do_command(commandline):
 
     if len(commandline) == 0:
         sys.exit("imp: no command specified")
+
+    if helpers.get_systemd_homed_active():
+        if verbose:
+            print("imp: systemd-homed active; activating home directory")
+
+        subprocess.run (['homectl', 'activate', login])
 
     if helpers.get_in_windows_terminal():
         command = ['machinectl',

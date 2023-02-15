@@ -28,6 +28,12 @@ def get_systemd_state():
     return sc.stdout.rstrip()
 
 
+def get_systemd_homed_active():
+    """Get the systemd-homed service state."""
+    sc = subprocess.run(["systemctl", "is-active", "systemd-homed.service", "--quiet"])
+    return (sc.returncode == 0)
+
+
 def get_systemd_machined_active():
     """Get the systemd-machined service state."""
     sc = subprocess.run(["systemctl", "is-active", "systemd-machined.service", "--quiet"])
