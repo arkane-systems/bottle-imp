@@ -7,35 +7,52 @@ then
     exit
 fi
 
-# Get the UID of the WSLg runtime directory.
-WSLGUID=$(stat -c "%u" /mnt/wslg/runtime-dir)
+USERNAME=$(/bin/id -un $2)
 
+# Make directory names
+RUNDIR="/run/user/$2"
+WORKDIR="/run/user/$2.work"
+
+# Start
 if [ "$1" = "start" ]
 then
-    # Setting up runtime dir.
-    # At this point, the WSLg runtime dir will be mounted at this point anyway;
-    # regardless of UID.
-    if [ $2 -eq $WSLGUID ]
+
+    # If (for whatever reason) the runtime dir is already a mount point,
+    # unmount it.
+    if /bin/mountpoint -q $RUNDIR
     then
-        # We are the WSLg user, so leave the status quo.
-        exit
+      /bin/umount $RUNDIR
     fi
 
-    # Otherwise, unmount the runtime dir, and then default to the standard.
-    /bin/umount /run/user/$2
-    /lib/systemd/systemd-user-runtime-dir $1 $2
-    exit
+    # Create the runtime and work directories and set their permissions appropriately.
+    /bin/mkdir -p $RUNDIR
+    /bin/chown $USERNAME: $RUNDIR
+
+    /bin/mkdir -p $WORKDIR
+    /bin/chown $USERNAME: $WORKDIR
+
+    # Perform the magic overlay mount.
+    /bin/mount -t overlay overlay -o lowerdir=/mnt/wslg/runtime-dir,upperdir=$RUNDIR,workdir=$WORKDIR $RUNDIR
 fi
 
-if [ $1 = "stop" ]
+# Stop
+if [ "$1" = "stop" ]
 then
-    # Unsetting up runtime dir.
-    if [ $2 -eq $WSLGUID ]
+    # The runtime dir should be a mount point, so unmount it if so.
+    if /bin/mountpoint -q $RUNDIR
     then
-        # We are the WSLg user, so leave the status quo.
-        exit
+      /bin/umount $RUNDIR
     fi
 
-    # Otherwise, default to the standard.
-    /lib/systemd/systemd-user-runtime-dir $1 $2
+    # If the working dir exists, clean it up.
+    if [ -d $WORKDIR ]
+    then
+        rm -rf $WORKDIR
+    fi
+
+    # If the runtime dir exists, clean it up.
+    if [ -d $RUNDIR ]
+    then
+        rm -rf $RUNDIR
+    fi
 fi
